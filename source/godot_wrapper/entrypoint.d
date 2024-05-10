@@ -13,7 +13,9 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
         import godot_wrapper.gdextension_interface : GDExtensionBool,
             GDExtensionInterface,
             GDExtensionClassLibraryPtr,
-            GDExtensionInitialization;
+            GDExtensionInitialization,
+            GDExtensionInitializationLevel,
+            GDEXTENSION_INITIALIZATION_SCENE;
     }
 
     // Runtime initialization for Windows
@@ -45,7 +47,7 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
     GDExtensionBool godot_gdextension_entry(
         const(GDExtensionInterface)* p_interface,
         GDExtensionClassLibraryPtr p_library,
-        GDExtensionInitialization* r_initialization) nothrow
+        GDExtensionInitialization* r_initialization)
     {
         // Runtime initialization for non-Windows
         version (Windows)
@@ -65,7 +67,22 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
             }
         }
 
+        r_initialization.minimum_initialization_level = GDEXTENSION_INITIALIZATION_SCENE;
+        r_initialization.initialize = &initialize;
+        r_initialization.deinitialize = &deinitialize;
+        r_initialization.userdata = null;
+
         return true;
+    }
+
+    extern(C) static void initialize(void* userdata, GDExtensionInitializationLevel p_level)
+    {
+
+    }
+
+	extern(C) static void deinitialize(void* userdata, GDExtensionInitializationLevel p_level)
+    {
+        
     }
 }
 
