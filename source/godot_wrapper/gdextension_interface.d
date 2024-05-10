@@ -1,7 +1,7 @@
 /**
 BindBC Godot Extension Interface.
 */
-module godot.gdextension_interface;
+module godot_wrapper.gdextension_interface;
 
 import core.stdc.stddef : wchar_t;
 import std.stdint : int32_t,

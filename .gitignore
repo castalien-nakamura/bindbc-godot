@@ -16,4 +16,5 @@ bindbc-godot-test-*
 *.lst
 *.code-workspace
 dub.selections.json
-lib
+*.dll
+*.lib

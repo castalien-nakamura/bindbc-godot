@@ -3,30 +3,8 @@
 		"Castalien LLC"
 	],
 	"copyright": "Copyright © 2024, Castalien LLC",
-	"dependencies": {
-		"bindbc-common": "~>0.1.6"
-	},
-	"description": "Static & dynamic D bindings to godot, compatible with BetterC, @nogc, and nothrow.",
+	"description": "Godot thin wrapper for D",
 	"license": "BSL-1.0",
-	"name": "bindbc-godot",
-	"targetType": "dynamicLibrary",
-	"configurations": [
-		{
-			"name": "dynamic",
-			"dependencies": {
-				"bindbc-loader": "~>1.1.5"
-			}
-		},
-		{
-			"name": "dynamicBC",
-			"dependencies": {
-				"bindbc-loader": "~>1.1.5"
-			},
-			"subConfigurations": {
-				"bindbc-common": "yesBC",
-				"bindbc-loader": "yesBC"
-			},
-			"buildOptions": ["betterC"]
-		}
-	]
+	"name": "godot-wrapper",
+	"targetType": "dynamicLibrary"
 }
