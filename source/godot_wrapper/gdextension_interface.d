@@ -144,6 +144,8 @@ enum : GDExtensionCallErrorType
 
 struct GDExtensionCallError
 {
+@nogc nothrow @system:
+
     GDExtensionCallErrorType error;
     int32_t argument;
     int32_t expected;
@@ -175,6 +177,8 @@ alias GDExtensionInstanceBindingReferenceCallback = GDExtensionBool function(
 
 struct GDExtensionInstanceBindingCallbacks
 {
+@nogc nothrow @system:
+
     GDExtensionInstanceBindingCreateCallback create_callback;
     GDExtensionInstanceBindingFreeCallback free_callback;
     GDExtensionInstanceBindingReferenceCallback reference_callback;
@@ -187,7 +191,9 @@ alias GDExtensionClassGet = GDExtensionBool function(GDExtensionClassInstancePtr
 alias GDExtensionClassGetRID = uint64_t function(GDExtensionClassInstancePtr p_instance);
 
 struct GDExtensionPropertyInfo
-{
+{    
+@nogc nothrow @system:
+
     GDExtensionVariantType type;
     GDExtensionStringNamePtr name;
     GDExtensionStringNamePtr class_name;
@@ -198,6 +204,8 @@ struct GDExtensionPropertyInfo
 
 struct GDExtensionMethodInfo
 {
+@nogc nothrow @system:
+
     GDExtensionStringNamePtr name;
     GDExtensionPropertyInfo return_value;
     uint32_t flags; // Bitfield of `GDExtensionClassMethodFlags`.
@@ -233,6 +241,8 @@ alias GDExtensionClassGetVirtual = GDExtensionClassCallVirtual function(
 
 struct GDExtensionClassCreationInfo
 {
+@nogc nothrow @system:
+
     GDExtensionBool is_virtual;
     GDExtensionBool is_abstract;
     GDExtensionClassSet set_func;
@@ -288,6 +298,8 @@ alias GDExtensionClassMethodPtrCall = void function(void* method_userdata, GDExt
 
 struct GDExtensionClassMethodInfo
 {
+@nogc nothrow @system:
+
     GDExtensionStringNamePtr name;
     void* method_userdata;
     GDExtensionClassMethodCall call_func;
@@ -409,6 +421,8 @@ struct GDExtensionScriptInstanceInfo
 
 struct GDExtensionInterface
 {
+@nogc nothrow @system:
+
     uint32_t version_major;
     uint32_t version_minor;
     uint32_t version_patch;
