@@ -3,9 +3,12 @@ BindBC Godot Extension Interface.
 */
 module godot.gdextension_interface;
 
-import bindbc.godot.config;
-import bindbc.godot.codegen;
-import std.stdint;
+import core.stdc.stddef : wchar_t;
+import std.stdint : int32_t,
+    int64_t,
+    uint8_t,
+    uint32_t,
+    uint64_t;
 
 extern (C) @nogc nothrow @system:
 
