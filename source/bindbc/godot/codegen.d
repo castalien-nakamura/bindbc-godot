@@ -9,4 +9,4 @@ module bindbc.godot.codegen;
 import bindbc.godot.config;
 import bindbc.common.codegen;
 
-mixin(makeFnBindFns(staticBinding, Version(1,0,0)));
+mixin(makeFnBindFns(staticBinding, Version(0,1,0)));

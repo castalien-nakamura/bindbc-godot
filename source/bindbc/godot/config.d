@@ -13,3 +13,13 @@ enum staticBinding = (){
 	version(BindBC_Static)       return true;
 	else return false;
 }();
+
+enum cStyleEnums = (){
+	version(GODOT_D_Enums_Only)  return false;
+	else return true;
+}();
+
+enum dStyleEnums = (){
+	version(GODOT_C_Enums_Only)  return false;
+	else return true;
+}();
