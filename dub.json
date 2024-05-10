@@ -6,5 +6,13 @@
 	"description": "Godot thin wrapper for D",
 	"license": "BSL-1.0",
 	"name": "godot-wrapper",
-	"targetType": "library"
+	"targetType": "library",
+	"configurations": [
+		{
+			"name": "test-extension",
+			"targetType": "dynamicLibrary",
+			"targetPath": "project",
+			"versions": ["GODOT_WRAPPER_TEST_EXTENSION"]
+		}
+	]
 }
