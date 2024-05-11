@@ -15,7 +15,9 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
             GDExtensionClassLibraryPtr,
             GDExtensionInitialization,
             GDExtensionInitializationLevel,
-            GDEXTENSION_INITIALIZATION_SCENE;
+            GDEXTENSION_INITIALIZATION_SCENE,
+            initializeGDExtensionFunctions;
+        import godot_wrapper.print : print;
     }
 
     // Runtime initialization for Windows
@@ -72,17 +74,19 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
         r_initialization.deinitialize = &deinitialize;
         r_initialization.userdata = null;
 
+        initializeGDExtensionFunctions(p_interface);
+
         return true;
     }
 
     extern(C) static void initialize(void* userdata, GDExtensionInitializationLevel p_level)
     {
-
+        print("initialize", "level: %s", p_level);
     }
 
 	extern(C) static void deinitialize(void* userdata, GDExtensionInitializationLevel p_level)
     {
-        
+        print("deinitialize", "level: %s", p_level);
     }
 }
 

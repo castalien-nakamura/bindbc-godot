@@ -916,6 +916,25 @@ void get_library_path(GDExtensionClassLibraryPtr p_library, GDExtensionStringPtr
     _get_library_path(p_library, r_path);
 }
 
+/** 
+Initializes the functions from the GDExtensionInterface.
+
+Params:
+    pInterface = The GDExtensionInterface to initialize the functions from.
+*/
+void initializeGDExtensionFunctions(const(GDExtensionInterface)* pInterface) @nogc nothrow
+in (pInterface)
+{
+    import std.traits : FieldNameTuple, Fields, isFunctionPointer;
+    static foreach (i, name; FieldNameTuple!GDExtensionInterface)
+    {
+        static if (isFunctionPointer!(Fields!GDExtensionInterface[i]))
+        {
+            mixin("_" ~ name ~ " = pInterface." ~ name ~ ";");
+        }
+    }
+}
+
 private extern(C):
 
 /* GODOT CORE */
@@ -1196,7 +1215,7 @@ __gshared GDExtensionInt function(
 __gshared char32_t* function(
     GDExtensionStringPtr p_self,
     GDExtensionInt p_index) _string_operator_index;
-__gshared const char32_t* function(
+__gshared const(char32_t)* function(
     GDExtensionConstStringPtr p_self,
     GDExtensionInt p_index) _string_operator_index_const;
 
