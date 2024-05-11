@@ -30,7 +30,7 @@ void print(
         fn,
         file,
         cast(int32_t) line,
-        false);
+        true);
 }
 
 /**
@@ -52,5 +52,5 @@ void print(
         fn,
         file,
         cast(int32_t) line,
-        false);
+        true);
 }
