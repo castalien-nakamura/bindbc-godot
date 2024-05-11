@@ -570,7 +570,7 @@ uint64_t file_access_get_buffer(GDExtensionConstObjectPtr p_instance, uint8_t* p
 
 int64_t worker_thread_pool_add_native_group_task(
     GDExtensionObjectPtr p_instance,
-    void function(void*, uint32_t) p_func,
+    GDGroupTaskFunction p_func,
     void* p_userdata,
     int p_elements,
     int p_tasks,
@@ -583,7 +583,7 @@ int64_t worker_thread_pool_add_native_group_task(
 
 int64_t worker_thread_pool_add_native_task(
     GDExtensionObjectPtr p_instance,
-    void function(void*) p_func,
+    GDTaskFunction p_func,
     void* p_userdata,
     GDExtensionBool p_high_priority,
     GDExtensionConstStringPtr p_description)
@@ -916,7 +916,7 @@ void get_library_path(GDExtensionClassLibraryPtr p_library, GDExtensionStringPtr
     _get_library_path(p_library, r_path);
 }
 
-private:
+private extern(C):
 
 /* GODOT CORE */
 
@@ -1228,7 +1228,7 @@ __gshared uint64_t function(
 
 __gshared int64_t function(
     GDExtensionObjectPtr p_instance,
-    void function(void*, uint32_t) p_func,
+    GDGroupTaskFunction p_func,
     void* p_userdata,
     int p_elements,
     int p_tasks,
@@ -1236,7 +1236,7 @@ __gshared int64_t function(
     GDExtensionConstStringPtr p_description) _worker_thread_pool_add_native_group_task;
 __gshared int64_t function(
     GDExtensionObjectPtr p_instance,
-    void function(void*) p_func,
+    GDTaskFunction p_func,
     void* p_userdata,
     GDExtensionBool p_high_priority,
     GDExtensionConstStringPtr p_description) _worker_thread_pool_add_native_task;

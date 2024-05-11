@@ -478,6 +478,9 @@ struct GDExtensionScriptInstanceInfo
 
 /* INTERFACE */
 
+alias GDGroupTaskFunction = void function(void*, uint32_t);
+alias GDTaskFunction = void function(void*);
+
 struct GDExtensionInterface
 {
 extern(C) @nogc nothrow @system:
@@ -750,7 +753,7 @@ extern(C) @nogc nothrow @system:
 
     int64_t function(
         GDExtensionObjectPtr p_instance,
-        void function(void*, uint32_t) p_func,
+        GDGroupTaskFunction p_func,
         void* p_userdata,
         int p_elements,
         int p_tasks,
@@ -758,7 +761,7 @@ extern(C) @nogc nothrow @system:
         GDExtensionConstStringPtr p_description) worker_thread_pool_add_native_group_task;
     int64_t function(
         GDExtensionObjectPtr p_instance,
-        void function(void*) p_func,
+        GDTaskFunction p_func,
         void* p_userdata,
         GDExtensionBool p_high_priority,
         GDExtensionConstStringPtr p_description) worker_thread_pool_add_native_task;
