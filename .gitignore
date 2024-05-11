@@ -18,3 +18,4 @@ bindbc-godot-test-*
 dub.selections.json
 *.dll
 *.lib
+.vscode
