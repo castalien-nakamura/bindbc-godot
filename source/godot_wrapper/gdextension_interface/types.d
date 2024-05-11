@@ -255,10 +255,13 @@ extern(C) @nogc nothrow @system:
         GDExtensionClassInstancePtr p_instance, GDExtensionBool* r_is_valid, GDExtensionStringPtr p_out);
     alias GDExtensionClassReference = void function(GDExtensionClassInstancePtr p_instance);
     alias GDExtensionClassUnreference = void function(GDExtensionClassInstancePtr p_instance);
-    alias GDExtensionClassCallVirtual = void function(GDExtensionClassInstancePtr p_instance, const(
-            GDExtensionConstTypePtr)* p_args, GDExtensionTypePtr r_ret);
+    alias GDExtensionClassCallVirtual = void function(
+        GDExtensionClassInstancePtr p_instance,
+        const(GDExtensionConstTypePtr)* p_args,
+        GDExtensionTypePtr r_ret);
     alias GDExtensionClassCreateInstance = GDExtensionObjectPtr function(void* p_userdata);
-    alias GDExtensionClassFreeInstance = void function(void* p_userdata, GDExtensionClassInstancePtr p_instance);
+    alias GDExtensionClassFreeInstance = void function(
+        void* p_userdata, GDExtensionClassInstancePtr p_instance);
     alias GDExtensionClassGetVirtual = GDExtensionClassCallVirtual function(
         void* p_userdata, GDExtensionConstStringNamePtr p_name);
 }
