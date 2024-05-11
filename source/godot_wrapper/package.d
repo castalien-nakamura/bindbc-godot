@@ -1,4 +1,8 @@
 module godot_wrapper;
 
-public import godot_wrapper.gdextension_interface;
-public import godot_wrapper.entrypoint;
+public
+{
+    import godot_wrapper.entrypoint;
+    import godot_wrapper.gdextension_interface;
+    import godot_wrapper.print;
+}
