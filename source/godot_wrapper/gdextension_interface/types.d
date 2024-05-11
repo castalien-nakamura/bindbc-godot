@@ -144,7 +144,7 @@ enum : GDExtensionCallErrorType
 
 struct GDExtensionCallError
 {
-@nogc nothrow @system:
+extern(C) @nogc nothrow @system:
 
     GDExtensionCallErrorType error;
     int32_t argument;
@@ -156,19 +156,29 @@ struct GDExtensionCallError
     alias GDExtensionVariantFromTypeConstructorFunc = void function(
         GDExtensionVariantPtr, GDExtensionTypePtr);
     alias GDExtensionTypeFromVariantConstructorFunc = void function(GDExtensionTypePtr, GDExtensionVariantPtr);
-    alias GDExtensionPtrOperatorEvaluator = void function(GDExtensionConstTypePtr p_left, GDExtensionConstTypePtr p_right, GDExtensionTypePtr r_result);
-    alias GDExtensionPtrBuiltInMethod = void function(GDExtensionTypePtr p_base, const(GDExtensionConstTypePtr)* p_args, GDExtensionTypePtr r_return, int p_argument_count);
+    alias GDExtensionPtrOperatorEvaluator = void function(
+        GDExtensionConstTypePtr p_left, GDExtensionConstTypePtr p_right, GDExtensionTypePtr r_result);
+    alias GDExtensionPtrBuiltInMethod = void function(
+        GDExtensionTypePtr p_base,
+        const(GDExtensionConstTypePtr)* p_args,
+        GDExtensionTypePtr r_return,
+        int p_argument_count);
     alias GDExtensionPtrConstructor = void function(GDExtensionTypePtr p_base, const(GDExtensionConstTypePtr)* p_args);
     alias GDExtensionPtrDestructor = void function(GDExtensionTypePtr p_base);
     alias GDExtensionPtrSetter = void function(GDExtensionTypePtr p_base, GDExtensionConstTypePtr p_value);
     alias GDExtensionPtrGetter = void function(GDExtensionConstTypePtr p_base, GDExtensionTypePtr r_value);
-    alias GDExtensionPtrIndexedSetter = void function(GDExtensionTypePtr p_base, GDExtensionInt p_index, GDExtensionConstTypePtr p_value);
-    alias GDExtensionPtrIndexedGetter = void function(GDExtensionConstTypePtr p_base, GDExtensionInt p_index, GDExtensionTypePtr r_value);
-    alias GDExtensionPtrKeyedSetter = void function(GDExtensionTypePtr p_base, GDExtensionConstTypePtr p_key, GDExtensionConstTypePtr p_value);
-    alias GDExtensionPtrKeyedGetter = void function(GDExtensionConstTypePtr p_base, GDExtensionConstTypePtr p_key, GDExtensionTypePtr r_value);
+    alias GDExtensionPtrIndexedSetter = void function(
+        GDExtensionTypePtr p_base, GDExtensionInt p_index, GDExtensionConstTypePtr p_value);
+    alias GDExtensionPtrIndexedGetter = void function(
+        GDExtensionConstTypePtr p_base, GDExtensionInt p_index, GDExtensionTypePtr r_value);
+    alias GDExtensionPtrKeyedSetter = void function(
+        GDExtensionTypePtr p_base, GDExtensionConstTypePtr p_key, GDExtensionConstTypePtr p_value);
+    alias GDExtensionPtrKeyedGetter = void function(
+        GDExtensionConstTypePtr p_base, GDExtensionConstTypePtr p_key, GDExtensionTypePtr r_value);
     alias GDExtensionPtrKeyedChecker = uint32_t function(
         GDExtensionConstVariantPtr p_base, GDExtensionConstVariantPtr p_key);
-    alias GDExtensionPtrUtilityFunction = void function(GDExtensionTypePtr r_return, const(GDExtensionConstTypePtr)* p_args, int p_argument_count);
+    alias GDExtensionPtrUtilityFunction = void function(
+        GDExtensionTypePtr r_return, const(GDExtensionConstTypePtr)* p_args, int p_argument_count);
 
     alias GDExtensionClassConstructor = GDExtensionObjectPtr function();
 }
@@ -189,15 +199,19 @@ alias GDExtensionClassInstancePtr = void*;
 
 @nogc nothrow
 {
-    alias GDExtensionClassSet = GDExtensionBool function(GDExtensionClassInstancePtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_value);
-    alias GDExtensionClassGet = GDExtensionBool function(GDExtensionClassInstancePtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
+    alias GDExtensionClassSet = GDExtensionBool function(
+        GDExtensionClassInstancePtr p_instance,
+        GDExtensionConstStringNamePtr p_name,
+        GDExtensionConstVariantPtr p_value);
+    alias GDExtensionClassGet = GDExtensionBool function(
+        GDExtensionClassInstancePtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
     alias GDExtensionClassGetRID = uint64_t function(GDExtensionClassInstancePtr p_instance);
 }
 
 
 struct GDExtensionPropertyInfo
 {    
-@nogc nothrow @system:
+extern(C) @nogc nothrow @system:
 
     GDExtensionVariantType type;
     GDExtensionStringNamePtr name;
@@ -209,7 +223,7 @@ struct GDExtensionPropertyInfo
 
 struct GDExtensionMethodInfo
 {
-@nogc nothrow @system:
+extern(C) @nogc nothrow @system:
 
     GDExtensionStringNamePtr name;
     GDExtensionPropertyInfo return_value;
@@ -233,10 +247,12 @@ struct GDExtensionMethodInfo
         GDExtensionClassInstancePtr p_instance, const(GDExtensionPropertyInfo)* p_list);
     alias GDExtensionClassPropertyCanRevert = GDExtensionBool function(
         GDExtensionClassInstancePtr p_instance, GDExtensionConstStringNamePtr p_name);
-    alias GDExtensionClassPropertyGetRevert = GDExtensionBool function(GDExtensionClassInstancePtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
+    alias GDExtensionClassPropertyGetRevert = GDExtensionBool function(
+        GDExtensionClassInstancePtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
     alias GDExtensionClassNotification = void function(
         GDExtensionClassInstancePtr p_instance, int32_t p_what);
-    alias GDExtensionClassToString = void function(GDExtensionClassInstancePtr p_instance, GDExtensionBool* r_is_valid, GDExtensionStringPtr p_out);
+    alias GDExtensionClassToString = void function(
+        GDExtensionClassInstancePtr p_instance, GDExtensionBool* r_is_valid, GDExtensionStringPtr p_out);
     alias GDExtensionClassReference = void function(GDExtensionClassInstancePtr p_instance);
     alias GDExtensionClassUnreference = void function(GDExtensionClassInstancePtr p_instance);
     alias GDExtensionClassCallVirtual = void function(GDExtensionClassInstancePtr p_instance, const(
@@ -249,7 +265,7 @@ struct GDExtensionMethodInfo
 
 struct GDExtensionClassCreationInfo
 {
-@nogc nothrow @system:
+extern(C) @nogc nothrow @system:
 
     GDExtensionBool is_virtual;
     GDExtensionBool is_abstract;
@@ -302,14 +318,23 @@ enum : GDExtensionClassMethodArgumentMetadata
 
 @nogc nothrow
 {
-    alias GDExtensionClassMethodCall = void function(void* method_userdata, GDExtensionClassInstancePtr p_instance, const(GDExtensionConstVariantPtr)* p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError* r_error);
-    alias GDExtensionClassMethodPtrCall = void function(void* method_userdata, GDExtensionClassInstancePtr p_instance, const(
-            GDExtensionConstTypePtr)* p_args, GDExtensionTypePtr r_ret);
+    alias GDExtensionClassMethodCall = void function(
+        void* method_userdata,
+        GDExtensionClassInstancePtr p_instance,
+        const(GDExtensionConstVariantPtr)* p_args,
+        GDExtensionInt p_argument_count,
+        GDExtensionVariantPtr r_return,
+        GDExtensionCallError* r_error);
+    alias GDExtensionClassMethodPtrCall = void function(
+        void* method_userdata,
+        GDExtensionClassInstancePtr p_instance,
+        const(GDExtensionConstTypePtr)* p_args,
+        GDExtensionTypePtr r_ret);
 }
 
 struct GDExtensionClassMethodInfo
 {
-@nogc nothrow @system:
+extern(C) @nogc nothrow @system:
 
     GDExtensionStringNamePtr name;
     void* method_userdata;
@@ -338,8 +363,14 @@ alias GDExtensionScriptInstanceDataPtr = void*; // Pointer to custom ScriptInsta
 
 @nogc nothrow
 {
-    alias GDExtensionScriptInstanceSet = GDExtensionBool function(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_value);
-    alias GDExtensionScriptInstanceGet = GDExtensionBool function(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
+    alias GDExtensionScriptInstanceSet = GDExtensionBool function(
+        GDExtensionScriptInstanceDataPtr p_instance,
+        GDExtensionConstStringNamePtr p_name,
+        GDExtensionConstVariantPtr p_value);
+    alias GDExtensionScriptInstanceGet = GDExtensionBool function(
+        GDExtensionScriptInstanceDataPtr p_instance,
+        GDExtensionConstStringNamePtr p_name,
+        GDExtensionVariantPtr r_ret);
     alias GDExtensionScriptInstanceGetPropertyList = const(GDExtensionPropertyInfo)* function(
         GDExtensionScriptInstanceDataPtr p_instance, uint32_t* r_count);
     alias GDExtensionScriptInstanceFreePropertyList = void function(
@@ -356,7 +387,10 @@ alias GDExtensionScriptInstanceDataPtr = void*; // Pointer to custom ScriptInsta
         GDExtensionScriptInstanceDataPtr p_instance);
     alias GDExtensionScriptInstancePropertyStateAdd = void function(
         GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_value, void* p_userdata);
-    alias GDExtensionScriptInstanceGetPropertyState = void function(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionScriptInstancePropertyStateAdd p_add_func, void* p_userdata);
+    alias GDExtensionScriptInstanceGetPropertyState = void function(
+        GDExtensionScriptInstanceDataPtr p_instance,
+        GDExtensionScriptInstancePropertyStateAdd p_add_func,
+        void* p_userdata);
 
     alias GDExtensionScriptInstanceGetMethodList = const(GDExtensionMethodInfo)* function(
         GDExtensionScriptInstanceDataPtr p_instance, uint32_t* r_count);
@@ -367,10 +401,18 @@ alias GDExtensionScriptInstanceDataPtr = void*; // Pointer to custom ScriptInsta
         GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name);
 
     alias GDExtensionScriptInstanceCall = void function(
-        GDExtensionScriptInstanceDataPtr p_self, GDExtensionConstStringNamePtr p_method, const(GDExtensionConstVariantPtr)* p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError* r_error);
+        GDExtensionScriptInstanceDataPtr p_self,
+        GDExtensionConstStringNamePtr p_method,
+        const(GDExtensionConstVariantPtr)* p_args,
+        GDExtensionInt p_argument_count,
+        GDExtensionVariantPtr r_return,
+        GDExtensionCallError* r_error);
     alias GDExtensionScriptInstanceNotification = void function(
         GDExtensionScriptInstanceDataPtr p_instance, int32_t p_what);
-    alias GDExtensionScriptInstanceToString = void function(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionBool* r_is_valid, GDExtensionStringPtr r_out);
+    alias GDExtensionScriptInstanceToString = void function(
+        GDExtensionScriptInstanceDataPtr p_instance,
+        GDExtensionBool* r_is_valid,
+        GDExtensionStringPtr r_out);
 
     alias GDExtensionScriptInstanceRefCountIncremented = void function(
         GDExtensionScriptInstanceDataPtr p_instance);
@@ -438,7 +480,7 @@ struct GDExtensionScriptInstanceInfo
 
 struct GDExtensionInterface
 {
-@nogc nothrow @system:
+extern(C) @nogc nothrow @system:
 
     uint32_t version_major;
     uint32_t version_minor;
@@ -451,15 +493,45 @@ struct GDExtensionInterface
     void* function(void* p_ptr, size_t p_bytes) mem_realloc;
     void function(void* p_ptr) mem_free;
 
-    void function(const(char)* p_description, const(char)* p_function, const(char)* p_file, int32_t p_line, GDExtensionBool p_editor_notify) print_error;
-    void function(const(char)* p_description, const(char)* p_message, const(char)* p_function, const(
-            char)* p_file, int32_t p_line, GDExtensionBool p_editor_notify) print_error_with_message;
-    void function(const(char)* p_description, const(char)* p_function, const(char)* p_file, int32_t p_line, GDExtensionBool p_editor_notify) print_warning;
-    void function(const(char)* p_description, const(char)* p_message, const(char)* p_function, const(
-            char)* p_file, int32_t p_line, GDExtensionBool p_editor_notify) print_warning_with_message;
-    void function(const(char)* p_description, const(char)* p_function, const(char)* p_file, int32_t p_line, GDExtensionBool p_editor_notify) print_script_error;
-    void function(const(char)* p_description, const(char)* p_message, const(char)* p_function, const(
-            char)* p_file, int32_t p_line, GDExtensionBool p_editor_notify) print_script_error_with_message;
+    void function(
+        const(char)* p_description,
+        const(char)* p_function,
+        const(char)* p_file,
+        int32_t p_line,
+        GDExtensionBool p_editor_notify) print_error;
+    void function(
+        const(char)* p_description,
+        const(char)* p_message,
+        const(char)* p_function,
+        const(char)* p_file,
+        int32_t p_line,
+        GDExtensionBool p_editor_notify) print_error_with_message;
+    void function(
+        const(char)* p_description,
+        const(char)* p_function,
+        const(char)* p_file,
+        int32_t p_line,
+        GDExtensionBool p_editor_notify) print_warning;
+    void function(
+        const(char)* p_description,
+        const(char)* p_message,
+        const(char)* p_function,
+        const(char)* p_file,
+        int32_t p_line,
+        GDExtensionBool p_editor_notify) print_warning_with_message;
+    void function(
+        const(char)* p_description,
+        const(char)* p_function,
+        const(char)* p_file,
+        int32_t p_line,
+        GDExtensionBool p_editor_notify) print_script_error;
+    void function(
+        const(char)* p_description,
+        const(char)* p_message,
+        const(char)* p_function,
+        const(char)* p_file,
+        int32_t p_line,
+        GDExtensionBool p_editor_notify) print_script_error_with_message;
 
     uint64_t function(GDExtensionConstStringNamePtr p_name) get_native_struct_size;
 
@@ -471,31 +543,96 @@ struct GDExtensionInterface
     void function(GDExtensionVariantPtr p_self) variant_destroy;
 
     /* variant type */
-    void function(GDExtensionVariantPtr p_self, GDExtensionConstStringNamePtr p_method, const(GDExtensionConstVariantPtr)* p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError* r_error) variant_call;
-    void function(GDExtensionVariantType p_type, GDExtensionConstStringNamePtr p_method, const(GDExtensionConstVariantPtr)* p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError* r_error) variant_call_static;
-    void function(GDExtensionVariantOperator p_op, GDExtensionConstVariantPtr p_a, GDExtensionConstVariantPtr p_b, GDExtensionVariantPtr r_return, GDExtensionBool* r_valid) variant_evaluate;
-    void function(GDExtensionVariantPtr p_self, GDExtensionConstVariantPtr p_key, GDExtensionConstVariantPtr p_value, GDExtensionBool* r_valid) variant_set;
-    void function(GDExtensionVariantPtr p_self, GDExtensionConstStringNamePtr p_key, GDExtensionConstVariantPtr p_value, GDExtensionBool* r_valid) variant_set_named;
-    void function(GDExtensionVariantPtr p_self, GDExtensionConstVariantPtr p_key, GDExtensionConstVariantPtr p_value, GDExtensionBool* r_valid) variant_set_keyed;
-    void function(GDExtensionVariantPtr p_self, GDExtensionInt p_index, GDExtensionConstVariantPtr p_value, GDExtensionBool* r_valid, GDExtensionBool* r_oob) variant_set_indexed;
-    void function(GDExtensionConstVariantPtr p_self, GDExtensionConstVariantPtr p_key, GDExtensionVariantPtr r_ret, GDExtensionBool* r_valid) variant_get;
-    void function(GDExtensionConstVariantPtr p_self, GDExtensionConstStringNamePtr p_key, GDExtensionVariantPtr r_ret, GDExtensionBool* r_valid) variant_get_named;
-    void function(GDExtensionConstVariantPtr p_self, GDExtensionConstVariantPtr p_key, GDExtensionVariantPtr r_ret, GDExtensionBool* r_valid) variant_get_keyed;
-    void function(GDExtensionConstVariantPtr p_self, GDExtensionInt p_index, GDExtensionVariantPtr r_ret, GDExtensionBool* r_valid, GDExtensionBool* r_oob) variant_get_indexed;
-    GDExtensionBool function(GDExtensionConstVariantPtr p_self, GDExtensionVariantPtr r_iter, GDExtensionBool* r_valid) variant_iter_init;
-    GDExtensionBool function(GDExtensionConstVariantPtr p_self, GDExtensionVariantPtr r_iter, GDExtensionBool* r_valid) variant_iter_next;
-    void function(GDExtensionConstVariantPtr p_self, GDExtensionVariantPtr r_iter, GDExtensionVariantPtr r_ret, GDExtensionBool* r_valid) variant_iter_get;
+    void function(
+        GDExtensionVariantPtr p_self,
+        GDExtensionConstStringNamePtr p_method,
+        const(GDExtensionConstVariantPtr)* p_args,
+        GDExtensionInt p_argument_count,
+        GDExtensionVariantPtr r_return,
+        GDExtensionCallError* r_error) variant_call;
+    void function(
+        GDExtensionVariantType p_type,
+        GDExtensionConstStringNamePtr p_method,
+        const(GDExtensionConstVariantPtr)* p_args,
+        GDExtensionInt p_argument_count,
+        GDExtensionVariantPtr r_return,
+        GDExtensionCallError* r_error) variant_call_static;
+    void function(
+        GDExtensionVariantOperator p_op,
+        GDExtensionConstVariantPtr p_a,
+        GDExtensionConstVariantPtr p_b,
+        GDExtensionVariantPtr r_return,
+        GDExtensionBool* r_valid) variant_evaluate;
+    void function(
+        GDExtensionVariantPtr p_self,
+        GDExtensionConstVariantPtr p_key,
+        GDExtensionConstVariantPtr p_value,
+        GDExtensionBool* r_valid) variant_set;
+    void function(
+        GDExtensionVariantPtr p_self,
+        GDExtensionConstStringNamePtr p_key,
+        GDExtensionConstVariantPtr p_value,
+        GDExtensionBool* r_valid) variant_set_named;
+    void function(
+        GDExtensionVariantPtr p_self,
+        GDExtensionConstVariantPtr p_key,
+        GDExtensionConstVariantPtr p_value,
+        GDExtensionBool* r_valid) variant_set_keyed;
+    void function(
+        GDExtensionVariantPtr p_self,
+        GDExtensionInt p_index,
+        GDExtensionConstVariantPtr p_value,
+        GDExtensionBool* r_valid,
+        GDExtensionBool* r_oob) variant_set_indexed;
+    void function(
+        GDExtensionConstVariantPtr p_self,
+        GDExtensionConstVariantPtr p_key,
+        GDExtensionVariantPtr r_ret,
+        GDExtensionBool* r_valid) variant_get;
+    void function(
+        GDExtensionConstVariantPtr p_self,
+        GDExtensionConstStringNamePtr p_key,
+        GDExtensionVariantPtr r_ret,
+        GDExtensionBool* r_valid) variant_get_named;
+    void function(
+        GDExtensionConstVariantPtr p_self,
+        GDExtensionConstVariantPtr p_key,
+        GDExtensionVariantPtr r_ret,
+        GDExtensionBool* r_valid) variant_get_keyed;
+    void function(
+        GDExtensionConstVariantPtr p_self,
+        GDExtensionInt p_index,
+        GDExtensionVariantPtr r_ret,
+        GDExtensionBool* r_valid,
+        GDExtensionBool* r_oob) variant_get_indexed;
+    GDExtensionBool function(
+        GDExtensionConstVariantPtr p_self,
+        GDExtensionVariantPtr r_iter,
+        GDExtensionBool* r_valid) variant_iter_init;
+    GDExtensionBool function(
+        GDExtensionConstVariantPtr p_self,
+        GDExtensionVariantPtr r_iter,
+        GDExtensionBool* r_valid) variant_iter_next;
+    void function(
+        GDExtensionConstVariantPtr p_self,
+        GDExtensionVariantPtr r_iter,
+        GDExtensionVariantPtr r_ret,
+        GDExtensionBool* r_valid) variant_iter_get;
     GDExtensionInt function(GDExtensionConstVariantPtr p_self) variant_hash;
     GDExtensionInt function(GDExtensionConstVariantPtr p_self, GDExtensionInt p_recursion_count) variant_recursive_hash;
-    GDExtensionBool function(GDExtensionConstVariantPtr p_self, GDExtensionConstVariantPtr p_other) variant_hash_compare;
+    GDExtensionBool function(
+        GDExtensionConstVariantPtr p_self, GDExtensionConstVariantPtr p_other) variant_hash_compare;
     GDExtensionBool function(GDExtensionConstVariantPtr p_self) variant_booleanize;
-    void function(GDExtensionConstVariantPtr p_self, GDExtensionVariantPtr r_ret, GDExtensionBool p_deep) variant_duplicate;
+    void function(
+        GDExtensionConstVariantPtr p_self, GDExtensionVariantPtr r_ret, GDExtensionBool p_deep) variant_duplicate;
     void function(GDExtensionConstVariantPtr p_self, GDExtensionStringPtr r_ret) variant_stringify;
 
     GDExtensionVariantType function(GDExtensionConstVariantPtr p_self) variant_get_type;
-    GDExtensionBool function(GDExtensionConstVariantPtr p_self, GDExtensionConstStringNamePtr p_method) variant_has_method;
+    GDExtensionBool function(
+        GDExtensionConstVariantPtr p_self, GDExtensionConstStringNamePtr p_method) variant_has_method;
     GDExtensionBool function(GDExtensionVariantType p_type, GDExtensionConstStringNamePtr p_member) variant_has_member;
-    GDExtensionBool function(GDExtensionConstVariantPtr p_self, GDExtensionConstVariantPtr p_key, GDExtensionBool* r_valid) variant_has_key;
+    GDExtensionBool function(
+        GDExtensionConstVariantPtr p_self, GDExtensionConstVariantPtr p_key, GDExtensionBool* r_valid) variant_has_key;
     void function(GDExtensionVariantType p_type, GDExtensionStringPtr r_name) variant_get_type_name;
     GDExtensionBool function(GDExtensionVariantType p_from, GDExtensionVariantType p_to) variant_can_convert;
     GDExtensionBool function(GDExtensionVariantType p_from, GDExtensionVariantType p_to) variant_can_convert_strict;
@@ -503,20 +640,38 @@ struct GDExtensionInterface
     /* ptrcalls */
     GDExtensionVariantFromTypeConstructorFunc function(GDExtensionVariantType p_type) get_variant_from_type_constructor;
     GDExtensionTypeFromVariantConstructorFunc function(GDExtensionVariantType p_type) get_variant_to_type_constructor;
-    GDExtensionPtrOperatorEvaluator function(GDExtensionVariantOperator p_operator, GDExtensionVariantType p_type_a, GDExtensionVariantType p_type_b) variant_get_ptr_operator_evaluator;
-    GDExtensionPtrBuiltInMethod function(GDExtensionVariantType p_type, GDExtensionConstStringNamePtr p_method, GDExtensionInt p_hash) variant_get_ptr_builtin_method;
-    GDExtensionPtrConstructor function(GDExtensionVariantType p_type, int32_t p_constructor) variant_get_ptr_constructor;
+    GDExtensionPtrOperatorEvaluator function(
+        GDExtensionVariantOperator p_operator,
+        GDExtensionVariantType p_type_a,
+        GDExtensionVariantType p_type_b) variant_get_ptr_operator_evaluator;
+    GDExtensionPtrBuiltInMethod function(
+        GDExtensionVariantType p_type,
+        GDExtensionConstStringNamePtr p_method,
+        GDExtensionInt p_hash) variant_get_ptr_builtin_method;
+    GDExtensionPtrConstructor function(
+        GDExtensionVariantType p_type, int32_t p_constructor) variant_get_ptr_constructor;
     GDExtensionPtrDestructor function(GDExtensionVariantType p_type) variant_get_ptr_destructor;
-    void function(GDExtensionVariantType p_type, GDExtensionVariantPtr p_base, const GDExtensionConstVariantPtr* p_args, int32_t p_argument_count, GDExtensionCallError* r_error) variant_construct;
-    GDExtensionPtrSetter function(GDExtensionVariantType p_type, GDExtensionConstStringNamePtr p_member) variant_get_ptr_setter;
-    GDExtensionPtrGetter function(GDExtensionVariantType p_type, GDExtensionConstStringNamePtr p_member) variant_get_ptr_getter;
+    void function(
+        GDExtensionVariantType p_type,
+        GDExtensionVariantPtr p_base,
+        const(GDExtensionConstVariantPtr)* p_args,
+        int32_t p_argument_count,
+        GDExtensionCallError* r_error) variant_construct;
+    GDExtensionPtrSetter function(
+        GDExtensionVariantType p_type, GDExtensionConstStringNamePtr p_member) variant_get_ptr_setter;
+    GDExtensionPtrGetter function(
+        GDExtensionVariantType p_type, GDExtensionConstStringNamePtr p_member) variant_get_ptr_getter;
     GDExtensionPtrIndexedSetter function(GDExtensionVariantType p_type) variant_get_ptr_indexed_setter;
     GDExtensionPtrIndexedGetter function(GDExtensionVariantType p_type) variant_get_ptr_indexed_getter;
     GDExtensionPtrKeyedSetter function(GDExtensionVariantType p_type) variant_get_ptr_keyed_setter;
     GDExtensionPtrKeyedGetter function(GDExtensionVariantType p_type) variant_get_ptr_keyed_getter;
     GDExtensionPtrKeyedChecker function(GDExtensionVariantType p_type) variant_get_ptr_keyed_checker;
-    void function(GDExtensionVariantType p_type, GDExtensionConstStringNamePtr p_constant, GDExtensionVariantPtr r_ret) variant_get_constant_value;
-    GDExtensionPtrUtilityFunction function(GDExtensionConstStringNamePtr p_function, GDExtensionInt p_hash) variant_get_ptr_utility_function;
+    void function(
+        GDExtensionVariantType p_type,
+        GDExtensionConstStringNamePtr p_constant,
+        GDExtensionVariantPtr r_ret) variant_get_constant_value;
+    GDExtensionPtrUtilityFunction function(
+        GDExtensionConstStringNamePtr p_function, GDExtensionInt p_hash) variant_get_ptr_utility_function;
 
     /*  extra utilities */
     void function(GDExtensionStringPtr r_dest, const(char)* p_contents) string_new_with_latin1_chars;
@@ -524,11 +679,26 @@ struct GDExtensionInterface
     void function(GDExtensionStringPtr r_dest, const(char16_t)* p_contents) string_new_with_utf16_chars;
     void function(GDExtensionStringPtr r_dest, const(char32_t)* p_contents) string_new_with_utf32_chars;
     void function(GDExtensionStringPtr r_dest, const(wchar_t)* p_contents) string_new_with_wide_chars;
-    void function(GDExtensionStringPtr r_dest, const(char)* p_contents, GDExtensionInt p_size) string_new_with_latin1_chars_and_len;
-    void function(GDExtensionStringPtr r_dest, const(char)* p_contents, GDExtensionInt p_size) string_new_with_utf8_chars_and_len;
-    void function(GDExtensionStringPtr r_dest, const(char16_t)* p_contents, GDExtensionInt p_size) string_new_with_utf16_chars_and_len;
-    void function(GDExtensionStringPtr r_dest, const(char32_t)* p_contents, GDExtensionInt p_size) string_new_with_utf32_chars_and_len;
-    void function(GDExtensionStringPtr r_dest, const(wchar_t)* p_contents, GDExtensionInt p_size) string_new_with_wide_chars_and_len;
+    void function(
+        GDExtensionStringPtr r_dest,
+        const(char)* p_contents,
+        GDExtensionInt p_size) string_new_with_latin1_chars_and_len;
+    void function(
+        GDExtensionStringPtr r_dest,
+        const(char)* p_contents,
+        GDExtensionInt p_size) string_new_with_utf8_chars_and_len;
+    void function(
+        GDExtensionStringPtr r_dest,
+        const(char16_t)* p_contents,
+        GDExtensionInt p_size) string_new_with_utf16_chars_and_len;
+    void function(
+        GDExtensionStringPtr r_dest,
+        const(char32_t)* p_contents,
+        GDExtensionInt p_size) string_new_with_utf32_chars_and_len;
+    void function(
+        GDExtensionStringPtr r_dest,
+        const(wchar_t)* p_contents,
+        GDExtensionInt p_size) string_new_with_wide_chars_and_len;
     /* Information about the following functions:
 	 * - The return value is the resulting encoded string length.
 	 * - The length returned is in characters, not in bytes. It also does not include a trailing zero.
@@ -537,13 +707,28 @@ struct GDExtensionInterface
 	 * - p_max_write_length argument is in characters, not bytes. It will be ignored if r_text is NULL.
 	 * - p_max_write_length argument does not affect the return value, it's only to cap write length.
 	 */
-    GDExtensionInt function(GDExtensionConstStringPtr p_self, char* r_text, GDExtensionInt p_max_write_length) string_to_latin1_chars;
-    GDExtensionInt function(GDExtensionConstStringPtr p_self, char* r_text, GDExtensionInt p_max_write_length) string_to_utf8_chars;
-    GDExtensionInt function(GDExtensionConstStringPtr p_self, char16_t* r_text, GDExtensionInt p_max_write_length) string_to_utf16_chars;
-    GDExtensionInt function(GDExtensionConstStringPtr p_self, char32_t* r_text, GDExtensionInt p_max_write_length) string_to_utf32_chars;
-    GDExtensionInt function(GDExtensionConstStringPtr p_self, wchar_t* r_text, GDExtensionInt p_max_write_length) string_to_wide_chars;
+    GDExtensionInt function(
+        GDExtensionConstStringPtr p_self,
+        char* r_text,
+        GDExtensionInt p_max_write_length) string_to_latin1_chars;
+    GDExtensionInt function(
+        GDExtensionConstStringPtr p_self,
+        char* r_text,
+        GDExtensionInt p_max_write_length) string_to_utf8_chars;
+    GDExtensionInt function(
+        GDExtensionConstStringPtr p_self,
+        char16_t* r_text,
+        GDExtensionInt p_max_write_length) string_to_utf16_chars;
+    GDExtensionInt function(
+        GDExtensionConstStringPtr p_self,
+        char32_t* r_text,
+        GDExtensionInt p_max_write_length) string_to_utf32_chars;
+    GDExtensionInt function(
+        GDExtensionConstStringPtr p_self,
+        wchar_t* r_text,
+        GDExtensionInt p_max_write_length) string_to_wide_chars;
     char32_t* function(GDExtensionStringPtr p_self, GDExtensionInt p_index) string_operator_index;
-    const char32_t* function(GDExtensionConstStringPtr p_self, GDExtensionInt p_index) string_operator_index_const;
+    const(char32_t)* function(GDExtensionConstStringPtr p_self, GDExtensionInt p_index) string_operator_index_const;
 
     void function(GDExtensionStringPtr p_self, GDExtensionConstStringPtr p_b) string_operator_plus_eq_string;
     void function(GDExtensionStringPtr p_self, char32_t p_b) string_operator_plus_eq_char;
@@ -553,7 +738,8 @@ struct GDExtensionInterface
 
     /*  XMLParser extra utilities */
 
-    GDExtensionInt function(GDExtensionObjectPtr p_instance, const(uint8_t)* p_buffer, size_t p_size) xml_parser_open_buffer;
+    GDExtensionInt function(
+        GDExtensionObjectPtr p_instance, const(uint8_t)* p_buffer, size_t p_size) xml_parser_open_buffer;
 
     /*  FileAccess extra utilities */
 
@@ -562,59 +748,109 @@ struct GDExtensionInterface
 
     /*  WorkerThreadPool extra utilities */
 
-    int64_t function(GDExtensionObjectPtr p_instance, void function(void*, uint32_t) p_func, void* p_userdata, int p_elements, int p_tasks, GDExtensionBool p_high_priority, GDExtensionConstStringPtr p_description) worker_thread_pool_add_native_group_task;
-    int64_t function(GDExtensionObjectPtr p_instance, void function(void*) p_func, void* p_userdata, GDExtensionBool p_high_priority, GDExtensionConstStringPtr p_description) worker_thread_pool_add_native_task;
+    int64_t function(
+        GDExtensionObjectPtr p_instance,
+        void function(void*, uint32_t) p_func,
+        void* p_userdata,
+        int p_elements,
+        int p_tasks,
+        GDExtensionBool p_high_priority,
+        GDExtensionConstStringPtr p_description) worker_thread_pool_add_native_group_task;
+    int64_t function(
+        GDExtensionObjectPtr p_instance,
+        void function(void*) p_func,
+        void* p_userdata,
+        GDExtensionBool p_high_priority,
+        GDExtensionConstStringPtr p_description) worker_thread_pool_add_native_task;
 
     /* Packed array functions */
 
-    uint8_t* function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_byte_array_operator_index; // p_self should be a PackedByteArray
-    const(uint8_t)* function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_byte_array_operator_index_const; // p_self should be a PackedByteArray
+    uint8_t* function(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) packed_byte_array_operator_index;
+    const(uint8_t)* function(
+        GDExtensionConstTypePtr p_self,
+        GDExtensionInt p_index) packed_byte_array_operator_index_const;
 
-    GDExtensionTypePtr function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_color_array_operator_index; // p_self should be a PackedColorArray, returns Color ptr
-    GDExtensionTypePtr function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_color_array_operator_index_const; // p_self should be a PackedColorArray, returns Color ptr
+    GDExtensionTypePtr function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_color_array_operator_index;
+    GDExtensionTypePtr function(
+        GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_color_array_operator_index_const;
 
-    float* function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_float32_array_operator_index; // p_self should be a PackedFloat32Array
-    const(float)* function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_float32_array_operator_index_const; // p_self should be a PackedFloat32Array
-    double* function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_float64_array_operator_index; // p_self should be a PackedFloat64Array
-    const(double)* function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_float64_array_operator_index_const; // p_self should be a PackedFloat64Array
+    float* function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_float32_array_operator_index;
+    const(float)* function(
+        GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_float32_array_operator_index_const;
+    double* function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_float64_array_operator_index;
+    const(double)* function(
+        GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_float64_array_operator_index_const;
 
-    int32_t* function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_int32_array_operator_index; // p_self should be a PackedInt32Array
-    const(int32_t)* function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_int32_array_operator_index_const; // p_self should be a PackedInt32Array
-    int64_t* function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_int64_array_operator_index; // p_self should be a PackedInt32Array
-    const(int64_t)* function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_int64_array_operator_index_const; // p_self should be a PackedInt32Array
+    int32_t* function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_int32_array_operator_index;
+    const(int32_t)* function(
+        GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_int32_array_operator_index_const;
+    int64_t* function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_int64_array_operator_index;
+    const(int64_t)* function(
+        GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_int64_array_operator_index_const;
 
-    GDExtensionStringPtr function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_string_array_operator_index; // p_self should be a PackedStringArray
-    GDExtensionStringPtr function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_string_array_operator_index_const; // p_self should be a PackedStringArray
+    GDExtensionStringPtr function(
+        GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_string_array_operator_index;
+    GDExtensionStringPtr function(
+        GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_string_array_operator_index_const;
 
-    GDExtensionTypePtr function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_vector2_array_operator_index; // p_self should be a PackedVector2Array, returns Vector2 ptr
-    GDExtensionTypePtr function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_vector2_array_operator_index_const; // p_self should be a PackedVector2Array, returns Vector2 ptr
-    GDExtensionTypePtr function(GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_vector3_array_operator_index; // p_self should be a PackedVector3Array, returns Vector3 ptr
-    GDExtensionTypePtr function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_vector3_array_operator_index_const; // p_self should be a PackedVector3Array, returns Vector3 ptr
+    GDExtensionTypePtr function(
+        GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_vector2_array_operator_index;
+    GDExtensionTypePtr function(
+        GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_vector2_array_operator_index_const;
+    GDExtensionTypePtr function(
+        GDExtensionTypePtr p_self, GDExtensionInt p_index) packed_vector3_array_operator_index;
+    GDExtensionTypePtr function(
+        GDExtensionConstTypePtr p_self, GDExtensionInt p_index) packed_vector3_array_operator_index_const;
 
-    GDExtensionVariantPtr function(GDExtensionTypePtr p_self, GDExtensionInt p_index) array_operator_index; // p_self should be an Array ptr
-    GDExtensionVariantPtr function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) array_operator_index_const; // p_self should be an Array ptr
-    void function(GDExtensionTypePtr p_self, GDExtensionConstTypePtr p_from) array_ref; // p_self should be an Array ptr
-    void function(GDExtensionTypePtr p_self, GDExtensionVariantType p_type, GDExtensionConstStringNamePtr p_class_name, GDExtensionConstVariantPtr p_script) array_set_typed; // p_self should be an Array ptr
+    GDExtensionVariantPtr function(GDExtensionTypePtr p_self, GDExtensionInt p_index) array_operator_index;
+    GDExtensionVariantPtr function(GDExtensionConstTypePtr p_self, GDExtensionInt p_index) array_operator_index_const;
+    void function(GDExtensionTypePtr p_self, GDExtensionConstTypePtr p_from) array_ref;
+    void function(
+        GDExtensionTypePtr p_self,
+        GDExtensionVariantType p_type,
+        GDExtensionConstStringNamePtr p_class_name,
+        GDExtensionConstVariantPtr p_script) array_set_typed;
 
     /* Dictionary functions */
 
-    GDExtensionVariantPtr function(GDExtensionTypePtr p_self, GDExtensionConstVariantPtr p_key) dictionary_operator_index; // p_self should be an Dictionary ptr
-    GDExtensionVariantPtr function(GDExtensionConstTypePtr p_self, GDExtensionConstVariantPtr p_key) dictionary_operator_index_const; // p_self should be an Dictionary ptr
+    GDExtensionVariantPtr function(
+        GDExtensionTypePtr p_self, GDExtensionConstVariantPtr p_key) dictionary_operator_index;
+    GDExtensionVariantPtr function(
+        GDExtensionConstTypePtr p_self, GDExtensionConstVariantPtr p_key) dictionary_operator_index_const;
 
     /* OBJECT */
 
-    void function(GDExtensionMethodBindPtr p_method_bind, GDExtensionObjectPtr p_instance, const(GDExtensionConstVariantPtr)* p_args, GDExtensionInt p_arg_count, GDExtensionVariantPtr r_ret, GDExtensionCallError* r_error) object_method_bind_call;
-    void function(GDExtensionMethodBindPtr p_method_bind, GDExtensionObjectPtr p_instance, const(
-            GDExtensionConstTypePtr)* p_args, GDExtensionTypePtr r_ret) object_method_bind_ptrcall;
+    void function(
+        GDExtensionMethodBindPtr p_method_bind,
+        GDExtensionObjectPtr p_instance,
+        const(GDExtensionConstVariantPtr)* p_args,
+        GDExtensionInt p_arg_count,
+        GDExtensionVariantPtr r_ret,
+        GDExtensionCallError* r_error) object_method_bind_call;
+    void function(
+        GDExtensionMethodBindPtr p_method_bind,
+        GDExtensionObjectPtr p_instance,
+        const(GDExtensionConstTypePtr)* p_args,
+        GDExtensionTypePtr r_ret) object_method_bind_ptrcall;
     void function(GDExtensionObjectPtr p_o) object_destroy;
     GDExtensionObjectPtr function(GDExtensionConstStringNamePtr p_name) global_get_singleton;
 
-    void* function(GDExtensionObjectPtr p_o, void* p_token, const(
-            GDExtensionInstanceBindingCallbacks)* p_callbacks) object_get_instance_binding;
-    void function(GDExtensionObjectPtr p_o, void* p_token, void* p_binding, const(
-            GDExtensionInstanceBindingCallbacks)* p_callbacks) object_set_instance_binding;
+    void* function(
+        GDExtensionObjectPtr p_o,
+        void* p_token,
+        const(GDExtensionInstanceBindingCallbacks)* p_callbacks) object_get_instance_binding;
+    void function(
+        GDExtensionObjectPtr p_o,
+        void* p_token,
+        void* p_binding,
+        const(GDExtensionInstanceBindingCallbacks)* p_callbacks) object_set_instance_binding;
 
-    void function(GDExtensionObjectPtr p_o, GDExtensionConstStringNamePtr p_classname, GDExtensionClassInstancePtr p_instance) object_set_instance; /* p_classname should be a registered extension class and should extend the p_o object's class. */
+    void function(
+        GDExtensionObjectPtr p_o,
+        GDExtensionConstStringNamePtr p_classname,
+        GDExtensionClassInstancePtr p_instance) object_set_instance;
 
     GDExtensionObjectPtr function(GDExtensionConstObjectPtr p_object, void* p_class_tag) object_cast_to;
     GDExtensionObjectPtr function(GDObjectInstanceID p_instance_id) object_get_instance_from_id;
@@ -627,29 +863,62 @@ struct GDExtensionInterface
 
     /* SCRIPT INSTANCE */
 
-    GDExtensionScriptInstancePtr function(const(GDExtensionScriptInstanceInfo)* p_info, GDExtensionScriptInstanceDataPtr p_instance_data) script_instance_create;
+    GDExtensionScriptInstancePtr function(
+        const(GDExtensionScriptInstanceInfo)* p_info,
+        GDExtensionScriptInstanceDataPtr p_instance_data) script_instance_create;
 
     /* CLASSDB */
 
-    GDExtensionObjectPtr function(GDExtensionConstStringNamePtr p_classname) classdb_construct_object; /* The passed class must be a built-in godot class, or an already-registered extension class. In both case, object_set_instance should be called to fully initialize the object. */
-    GDExtensionMethodBindPtr function(GDExtensionConstStringNamePtr p_classname, GDExtensionConstStringNamePtr p_methodname, GDExtensionInt p_hash) classdb_get_method_bind;
+    GDExtensionObjectPtr function(GDExtensionConstStringNamePtr p_classname) classdb_construct_object;
+    GDExtensionMethodBindPtr function(
+        GDExtensionConstStringNamePtr p_classname,
+        GDExtensionConstStringNamePtr p_methodname,
+        GDExtensionInt p_hash) classdb_get_method_bind;
     void* function(GDExtensionConstStringNamePtr p_classname) classdb_get_class_tag;
 
     /* CLASSDB EXTENSION */
 
-    /* Provided parameters for `classdb_register_extension_*` can be safely freed once the function returns. */
-    void function(GDExtensionClassLibraryPtr p_library, GDExtensionConstStringNamePtr p_class_name, GDExtensionConstStringNamePtr p_parent_class_name, const(
-            GDExtensionClassCreationInfo)* p_extension_funcs) classdb_register_extension_class;
-    void function(GDExtensionClassLibraryPtr p_library, GDExtensionConstStringNamePtr p_class_name, const(
-            GDExtensionClassMethodInfo)* p_method_info) classdb_register_extension_class_method;
-    void function(GDExtensionClassLibraryPtr p_library, GDExtensionConstStringNamePtr p_class_name, GDExtensionConstStringNamePtr p_enum_name, GDExtensionConstStringNamePtr p_constant_name, GDExtensionInt p_constant_value, GDExtensionBool p_is_bitfield) classdb_register_extension_class_integer_constant;
-    void function(GDExtensionClassLibraryPtr p_library, GDExtensionConstStringNamePtr p_class_name, const(GDExtensionPropertyInfo)* p_info, GDExtensionConstStringNamePtr p_setter, GDExtensionConstStringNamePtr p_getter) classdb_register_extension_class_property;
-    void function(GDExtensionClassLibraryPtr p_library, GDExtensionConstStringNamePtr p_class_name, GDExtensionConstStringPtr p_group_name, GDExtensionConstStringPtr p_prefix) classdb_register_extension_class_property_group;
-    void function(GDExtensionClassLibraryPtr p_library, GDExtensionConstStringNamePtr p_class_name, GDExtensionConstStringPtr p_subgroup_name, GDExtensionConstStringPtr p_prefix) classdb_register_extension_class_property_subgroup;
-    void function(GDExtensionClassLibraryPtr p_library, GDExtensionConstStringNamePtr p_class_name, GDExtensionConstStringNamePtr p_signal_name, const(
-            GDExtensionPropertyInfo)* p_argument_info, GDExtensionInt p_argument_count) classdb_register_extension_class_signal;
-    void function(GDExtensionClassLibraryPtr p_library, GDExtensionConstStringNamePtr p_class_name) classdb_unregister_extension_class; /* Unregistering a parent class before a class that inherits it will result in failure. Inheritors must be unregistered first. */
-
+    void function(
+        GDExtensionClassLibraryPtr p_library,
+        GDExtensionConstStringNamePtr p_class_name,
+        GDExtensionConstStringNamePtr p_parent_class_name,
+        const(GDExtensionClassCreationInfo)* p_extension_funcs) classdb_register_extension_class;
+    void function(
+        GDExtensionClassLibraryPtr p_library,
+        GDExtensionConstStringNamePtr p_class_name,
+        const(GDExtensionClassMethodInfo)* p_method_info) classdb_register_extension_class_method;
+    void function(
+        GDExtensionClassLibraryPtr p_library,
+        GDExtensionConstStringNamePtr p_class_name,
+        GDExtensionConstStringNamePtr p_enum_name,
+        GDExtensionConstStringNamePtr p_constant_name,
+        GDExtensionInt p_constant_value,
+        GDExtensionBool p_is_bitfield) classdb_register_extension_class_integer_constant;
+    void function(
+        GDExtensionClassLibraryPtr p_library,
+        GDExtensionConstStringNamePtr p_class_name,
+        const(GDExtensionPropertyInfo)* p_info,
+        GDExtensionConstStringNamePtr p_setter,
+        GDExtensionConstStringNamePtr p_getter) classdb_register_extension_class_property;
+    void function(
+        GDExtensionClassLibraryPtr p_library,
+        GDExtensionConstStringNamePtr p_class_name,
+        GDExtensionConstStringPtr p_group_name,
+        GDExtensionConstStringPtr p_prefix) classdb_register_extension_class_property_group;
+    void function(
+        GDExtensionClassLibraryPtr p_library,
+        GDExtensionConstStringNamePtr p_class_name,
+        GDExtensionConstStringPtr p_subgroup_name,
+        GDExtensionConstStringPtr p_prefix) classdb_register_extension_class_property_subgroup;
+    void function(
+        GDExtensionClassLibraryPtr p_library,
+        GDExtensionConstStringNamePtr p_class_name,
+        GDExtensionConstStringNamePtr p_signal_name,
+        const(GDExtensionPropertyInfo)* p_argument_info,
+        GDExtensionInt p_argument_count) classdb_register_extension_class_signal;
+    void function(
+        GDExtensionClassLibraryPtr p_library,
+        GDExtensionConstStringNamePtr p_class_name) classdb_unregister_extension_class;
     void function(GDExtensionClassLibraryPtr p_library, GDExtensionStringPtr r_path) get_library_path;
 }
 
@@ -667,6 +936,8 @@ enum : GDExtensionInitializationLevel
 
 struct GDExtensionInitialization
 {
+extern(C):
+
 	/* Minimum initialization level required.
 	 * If Core or Servers, the extension needs editor or game restart to take effect */
 	GDExtensionInitializationLevel minimum_initialization_level;
@@ -677,9 +948,15 @@ struct GDExtensionInitialization
 	void function(void* userdata, GDExtensionInitializationLevel p_level) deinitialize;
 }
 
-/* Define a C function prototype that implements the function below and expose it to dlopen() (or similar).
- * This is the entry point of the GDExtension library and will be called on initialization.
- * It can be used to set up different init levels, which are called during various stages of initialization/shutdown.
- * The function name must be a unique one specified in the .gdextension config file.
- */
-GDExtensionBool function(const(GDExtensionInterface)* p_interface, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization* r_initialization) GDExtensionInitializationFunction;
+@nogc nothrow
+{
+    /* Define a C function prototype that implements the function below and expose it to dlopen() (or similar).
+    * This is the entry point of the GDExtension library and will be called on initialization.
+    * It can be used to set up different init levels, which are called during various stages of initialization/shutdown.
+    * The function name must be a unique one specified in the .gdextension config file.
+    */
+    alias GDExtensionInitializationFunction = GDExtensionBool function(
+        const(GDExtensionInterface)* p_interface,
+        GDExtensionClassLibraryPtr p_library,
+        GDExtensionInitialization* r_initialization);
+}
