@@ -113,14 +113,19 @@ enum : GDExtensionVariantOperator
 
 alias GDExtensionVariantPtr = void*;
 alias GDExtensionConstVariantPtr = const(void)*;
+alias GDExtensionUninitializedVariantPtr = void*;
 alias GDExtensionStringNamePtr = void*;
 alias GDExtensionConstStringNamePtr = const(void)*;
+alias GDExtensionUninitializedStringNamePtr = void*;
 alias GDExtensionStringPtr = void*;
 alias GDExtensionConstStringPtr = const(void)*;
+alias GDExtensionUninitializedStringPtr = void*;
 alias GDExtensionObjectPtr = void*;
 alias GDExtensionConstObjectPtr = const(void)*;
+alias GDExtensionUninitializedObjectPtr = void*;
 alias GDExtensionTypePtr = void*;
 alias GDExtensionConstTypePtr = const(void)*;
+alias GDExtensionUninitializedTypePtr = void*;
 alias GDExtensionMethodBindPtr = const(void)*;
 alias GDExtensionInt = int64_t;
 alias GDExtensionBool = uint8_t;
@@ -154,8 +159,9 @@ extern(C) @nogc nothrow @system:
 @nogc nothrow
 {
     alias GDExtensionVariantFromTypeConstructorFunc = void function(
-        GDExtensionVariantPtr, GDExtensionTypePtr);
-    alias GDExtensionTypeFromVariantConstructorFunc = void function(GDExtensionTypePtr, GDExtensionVariantPtr);
+        GDExtensionUninitializedVariantPtr, GDExtensionTypePtr);
+    alias GDExtensionTypeFromVariantConstructorFunc = void function(
+        GDExtensionUninitializedTypePtr, GDExtensionVariantPtr);
     alias GDExtensionPtrOperatorEvaluator = void function(
         GDExtensionConstTypePtr p_left, GDExtensionConstTypePtr p_right, GDExtensionTypePtr r_result);
     alias GDExtensionPtrBuiltInMethod = void function(
@@ -163,7 +169,8 @@ extern(C) @nogc nothrow @system:
         const(GDExtensionConstTypePtr)* p_args,
         GDExtensionTypePtr r_return,
         int p_argument_count);
-    alias GDExtensionPtrConstructor = void function(GDExtensionTypePtr p_base, const(GDExtensionConstTypePtr)* p_args);
+    alias GDExtensionPtrConstructor = void function(
+        GDExtensionUninitializedTypePtr p_base, const(GDExtensionConstTypePtr)* p_args);
     alias GDExtensionPtrDestructor = void function(GDExtensionTypePtr p_base);
     alias GDExtensionPtrSetter = void function(GDExtensionTypePtr p_base, GDExtensionConstTypePtr p_value);
     alias GDExtensionPtrGetter = void function(GDExtensionConstTypePtr p_base, GDExtensionTypePtr r_value);
@@ -249,8 +256,13 @@ extern(C) @nogc nothrow @system:
         GDExtensionClassInstancePtr p_instance, GDExtensionConstStringNamePtr p_name);
     alias GDExtensionClassPropertyGetRevert = GDExtensionBool function(
         GDExtensionClassInstancePtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
-    alias GDExtensionClassNotification = void function(
+    alias GDExtensionClassValidateProperty = GDExtensionBool function(
+        GDExtensionClassInstancePtr p_instance, GDExtensionPropertyInfo* p_property);
+
+    deprecated alias GDExtensionClassNotification = void function(
         GDExtensionClassInstancePtr p_instance, int32_t p_what);
+    alias GDExtensionClassNotification2 = void function(
+        GDExtensionClassInstancePtr p_instance, int32_t p_what, GDExtensionBool p_reversed);
     alias GDExtensionClassToString = void function(
         GDExtensionClassInstancePtr p_instance, GDExtensionBool* r_is_valid, GDExtensionStringPtr p_out);
     alias GDExtensionClassReference = void function(GDExtensionClassInstancePtr p_instance);
@@ -259,14 +271,24 @@ extern(C) @nogc nothrow @system:
         GDExtensionClassInstancePtr p_instance,
         const(GDExtensionConstTypePtr)* p_args,
         GDExtensionTypePtr r_ret);
-    alias GDExtensionClassCreateInstance = GDExtensionObjectPtr function(void* p_userdata);
+    alias GDExtensionClassCreateInstance = GDExtensionObjectPtr function(void* p_class_userdata);
     alias GDExtensionClassFreeInstance = void function(
         void* p_userdata, GDExtensionClassInstancePtr p_instance);
+    alias GDExtensionClassRecreateInstance = GDExtensionClassInstancePtr function(
+        void *p_class_userdata, GDExtensionObjectPtr p_object);
     alias GDExtensionClassGetVirtual = GDExtensionClassCallVirtual function(
-        void* p_userdata, GDExtensionConstStringNamePtr p_name);
+        void* p_class_userdata, GDExtensionConstStringNamePtr p_name);
+    alias GDExtensionClassGetVirtualCallData = void function(
+        void* p_class_userdata, GDExtensionConstStringNamePtr p_name);
+    alias GDExtensionClassCallVirtualWithData = void function(
+        GDExtensionClassInstancePtr p_instance,
+        GDExtensionConstStringNamePtr p_name,
+        void* p_virtual_call_userdata,
+        const(GDExtensionConstTypePtr)* p_args,
+        GDExtensionTypePtr r_ret);
 }
 
-struct GDExtensionClassCreationInfo
+deprecated struct GDExtensionClassCreationInfo
 {
 extern(C) @nogc nothrow @system:
 
@@ -287,6 +309,42 @@ extern(C) @nogc nothrow @system:
     GDExtensionClassGetVirtual get_virtual_func; // Queries a virtual function by name and returns a callback to invoke the requested virtual function.
     GDExtensionClassGetRID get_rid_func;
     void* class_userdata; // Per-class user data, later accessible in instance bindings.
+}
+
+struct GDExtensionClassCreationInfo2
+{
+extern(C) @nogc nothrow @system:
+
+	GDExtensionBool is_virtual;
+	GDExtensionBool is_abstract;
+	GDExtensionBool is_exposed;
+	GDExtensionClassSet set_func;
+	GDExtensionClassGet get_func;
+	GDExtensionClassGetPropertyList get_property_list_func;
+	GDExtensionClassFreePropertyList free_property_list_func;
+	GDExtensionClassPropertyCanRevert property_can_revert_func;
+	GDExtensionClassPropertyGetRevert property_get_revert_func;
+	GDExtensionClassValidateProperty validate_property_func;
+	GDExtensionClassNotification2 notification_func;
+	GDExtensionClassToString to_string_func;
+	GDExtensionClassReference reference_func;
+	GDExtensionClassUnreference unreference_func;
+	GDExtensionClassCreateInstance create_instance_func; // (Default) constructor; mandatory. If the class is not instantiable, consider making it virtual or abstract.
+	GDExtensionClassFreeInstance free_instance_func; // Destructor; mandatory.
+	GDExtensionClassRecreateInstance recreate_instance_func;
+	// Queries a virtual function by name and returns a callback to invoke the requested virtual function.
+	GDExtensionClassGetVirtual get_virtual_func;
+	// Paired with `call_virtual_with_data_func`, this is an alternative to `get_virtual_func` for extensions that
+	// need or benefit from extra data when calling virtual functions.
+	// Returns user data that will be passed to `call_virtual_with_data_func`.
+	// Returning `NULL` from this function signals to Godot that the virtual function is not overridden.
+	// Data returned from this function should be managed by the extension and must be valid until the extension is deinitialized.
+	// You should supply either `get_virtual_func`, or `get_virtual_call_data_func` with `call_virtual_with_data_func`.
+	GDExtensionClassGetVirtualCallData get_virtual_call_data_func;
+	// Used to call virtual functions when `get_virtual_call_data_func` is not null.
+	GDExtensionClassCallVirtualWithData call_virtual_with_data_func;
+	GDExtensionClassGetRID get_rid_func;
+	void* class_userdata; // Per-class user data, later accessible in instance bindings.
 }
 
 alias GDExtensionClassLibraryPtr = void*;
@@ -328,6 +386,11 @@ enum : GDExtensionClassMethodArgumentMetadata
         GDExtensionInt p_argument_count,
         GDExtensionVariantPtr r_return,
         GDExtensionCallError* r_error);
+    alias GDExtensionClassMethodValidatedCall = void function(
+        void* method_userdata,
+        GDExtensionClassInstancePtr p_instance,
+        const(GDExtensionConstVariantPtr)* p_args,
+        GDExtensionVariantPtr r_return);
     alias GDExtensionClassMethodPtrCall = void function(
         void* method_userdata,
         GDExtensionClassInstancePtr p_instance,
@@ -362,6 +425,59 @@ extern(C) @nogc nothrow @system:
     GDExtensionVariantPtr* default_arguments;
 }
 
+@nogc nothrow
+{
+    alias GDExtensionCallableCustomCall = void function(
+        void* callable_userdata,
+        const(GDExtensionConstVariantPtr)* p_args,
+        GDExtensionInt p_argument_count,
+        GDExtensionVariantPtr r_return,
+        GDExtensionCallError* r_error);
+    alias GDExtensionCallableCustomIsValid = GDExtensionBool function(void* callable_userdata);
+    alias GDExtensionCallableCustomFree = void function(void* callable_userdata);
+
+    alias GDExtensionCallableCustomHash = uint32_t function(void* callable_userdata);
+    alias GDExtensionCallableCustomEqual = GDExtensionBool function(void* callable_userdata_a, void* callable_userdata_b);
+    alias GDExtensionCallableCustomLessThan = GDExtensionBool function(void* callable_userdata_a, void* callable_userdata_b);
+
+    alias GDExtensionCallableCustomToString = void function(
+        void* callable_userdata, GDExtensionBool* r_is_valid, GDExtensionStringPtr r_out);
+}
+
+struct GDExtensionCallableCustomInfo
+{
+extern(C) @nogc nothrow @system:
+
+	/* Only `call_func` and `token` are strictly required, however, `object_id` should be passed if its not a static method.
+	 *
+	 * `token` should point to an address that uniquely identifies the GDExtension (for example, the
+	 * `GDExtensionClassLibraryPtr` passed to the entry symbol function.
+	 *
+	 * `hash_func`, `equal_func`, and `less_than_func` are optional. If not provided both `call_func` and
+	 * `callable_userdata` together are used as the identity of the callable for hashing and comparison purposes.
+	 *
+	 * The hash returned by `hash_func` is cached, `hash_func` will not be called more than once per callable.
+	 *
+	 * `is_valid_func` is necessary if the validity of the callable can change before destruction.
+	 *
+	 * `free_func` is necessary if `callable_userdata` needs to be cleaned up when the callable is freed.
+	 */
+	void* callable_userdata;
+	void* token;
+
+	GDObjectInstanceID object_id;
+
+	GDExtensionCallableCustomCall call_func;
+	GDExtensionCallableCustomIsValid is_valid_func;
+	GDExtensionCallableCustomFree free_func;
+
+	GDExtensionCallableCustomHash hash_func;
+	GDExtensionCallableCustomEqual equal_func;
+	GDExtensionCallableCustomLessThan less_than_func;
+
+	GDExtensionCallableCustomToString to_string_func;
+}
+
 alias GDExtensionScriptInstanceDataPtr = void*; // Pointer to custom ScriptInstance native implementation.
 
 @nogc nothrow
@@ -378,8 +494,13 @@ alias GDExtensionScriptInstanceDataPtr = void*; // Pointer to custom ScriptInsta
         GDExtensionScriptInstanceDataPtr p_instance, uint32_t* r_count);
     alias GDExtensionScriptInstanceFreePropertyList = void function(
         GDExtensionScriptInstanceDataPtr p_instance, const(GDExtensionPropertyInfo)* p_list);
+    alias GDExtensionScriptInstanceGetClassCategory = GDExtensionBool function(
+        GDExtensionScriptInstanceDataPtr p_instance, GDExtensionPropertyInfo* p_class_category);
+
     alias GDExtensionScriptInstanceGetPropertyType = GDExtensionVariantType function(
         GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionBool* r_is_valid);
+    alias GDExtensionScriptInstanceValidateProperty = GDExtensionBool function(
+        GDExtensionScriptInstanceDataPtr p_instance, GDExtensionPropertyInfo* p_property);
 
     alias GDExtensionScriptInstancePropertyCanRevert = GDExtensionBool function(
         GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name);
@@ -412,6 +533,9 @@ alias GDExtensionScriptInstanceDataPtr = void*; // Pointer to custom ScriptInsta
         GDExtensionCallError* r_error);
     alias GDExtensionScriptInstanceNotification = void function(
         GDExtensionScriptInstanceDataPtr p_instance, int32_t p_what);
+    alias GDExtensionScriptInstanceNotification2 = void function(
+        GDExtensionScriptInstanceDataPtr p_instance, int32_t p_what, GDExtensionBool p_reversed);
+
     alias GDExtensionScriptInstanceToString = void function(
         GDExtensionScriptInstanceDataPtr p_instance,
         GDExtensionBool* r_is_valid,
@@ -440,7 +564,10 @@ alias GDExtensionScriptLanguagePtr = void*;
 
 alias GDExtensionScriptInstancePtr = void*;
 
-struct GDExtensionScriptInstanceInfo
+/**
+Deprecated. Use GDExtensionScriptInstanceInfo2 instead.
+*/
+deprecated struct GDExtensionScriptInstanceInfo
 {
     GDExtensionScriptInstanceSet set_func;
     GDExtensionScriptInstanceGet get_func;
@@ -477,6 +604,47 @@ struct GDExtensionScriptInstanceInfo
     GDExtensionScriptInstanceGetLanguage get_language_func;
 
     GDExtensionScriptInstanceFree free_func;
+}
+
+struct GDExtensionScriptInstanceInfo2
+{
+	GDExtensionScriptInstanceSet set_func;
+	GDExtensionScriptInstanceGet get_func;
+	GDExtensionScriptInstanceGetPropertyList get_property_list_func;
+	GDExtensionScriptInstanceFreePropertyList free_property_list_func;
+	GDExtensionScriptInstanceGetClassCategory get_class_category_func; // Optional. Set to NULL for the default behavior.
+
+	GDExtensionScriptInstancePropertyCanRevert property_can_revert_func;
+	GDExtensionScriptInstancePropertyGetRevert property_get_revert_func;
+
+	GDExtensionScriptInstanceGetOwner get_owner_func;
+	GDExtensionScriptInstanceGetPropertyState get_property_state_func;
+
+	GDExtensionScriptInstanceGetMethodList get_method_list_func;
+	GDExtensionScriptInstanceFreeMethodList free_method_list_func;
+	GDExtensionScriptInstanceGetPropertyType get_property_type_func;
+	GDExtensionScriptInstanceValidateProperty validate_property_func;
+
+	GDExtensionScriptInstanceHasMethod has_method_func;
+
+	GDExtensionScriptInstanceCall call_func;
+	GDExtensionScriptInstanceNotification2 notification_func;
+
+	GDExtensionScriptInstanceToString to_string_func;
+
+	GDExtensionScriptInstanceRefCountIncremented refcount_incremented_func;
+	GDExtensionScriptInstanceRefCountDecremented refcount_decremented_func;
+
+	GDExtensionScriptInstanceGetScript get_script_func;
+
+	GDExtensionScriptInstanceIsPlaceholder is_placeholder_func;
+
+	GDExtensionScriptInstanceSet set_fallback_func;
+	GDExtensionScriptInstanceGet get_fallback_func;
+
+	GDExtensionScriptInstanceGetLanguage get_language_func;
+
+	GDExtensionScriptInstanceFree free_func;
 }
 
 /* INTERFACE */
@@ -954,15 +1122,57 @@ extern(C):
 	void function(void* userdata, GDExtensionInitializationLevel p_level) deinitialize;
 }
 
+alias GDExtensionInterfaceFunctionPtr = void function();
+alias GDExtensionInterfaceGetProcAddress = GDExtensionInterfaceFunctionPtr function(const(char)* p_function_name);
+
 @nogc nothrow
 {
-    /* Define a C function prototype that implements the function below and expose it to dlopen() (or similar).
-    * This is the entry point of the GDExtension library and will be called on initialization.
-    * It can be used to set up different init levels, which are called during various stages of initialization/shutdown.
-    * The function name must be a unique one specified in the .gdextension config file.
+    /*
+    * Each GDExtension should define a C function that matches the signature of GDExtensionInitializationFunction,
+    * and export it so that it can be loaded via dlopen() or equivalent for the given platform.
+    *
+    * For example:
+    *
+    *   GDExtensionBool my_extension_init(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization);
+    *
+    * This function's name must be specified as the 'entry_symbol' in the .gdextension file.
+    *
+    * This makes it the entry point of the GDExtension and will be called on initialization.
+    *
+    * The GDExtension can then modify the r_initialization structure, setting the minimum initialization level,
+    * and providing pointers to functions that will be called at various stages of initialization/shutdown.
+    *
+    * The rest of the GDExtension's interface to Godot consists of function pointers that can be loaded
+    * by calling p_get_proc_address("...") with the name of the function.
+    *
+    * For example:
+    *
+    *   GDExtensionInterfaceGetGodotVersion get_godot_version = (GDExtensionInterfaceGetGodotVersion)p_get_proc_address("get_godot_version");
+    *
+    * (Note that snippet may cause "cast between incompatible function types" on some compilers, you can
+    * silence this by adding an intermediary `void*` cast.)
+    *
+    * You can then call it like a normal function:
+    *
+    *   GDExtensionGodotVersion godot_version;
+    *   get_godot_version(&godot_version);
+    *   printf("Godot v%d.%d.%d\n", godot_version.major, godot_version.minor, godot_version.patch);
+    *
+    * All of these interface functions are described below, together with the name that's used to load it,
+    * and the function pointer typedef that shows its signature.
     */
     alias GDExtensionInitializationFunction = GDExtensionBool function(
-        const(GDExtensionInterface)* p_interface,
+        GDExtensionInterfaceGetProcAddress p_get_proc_address,
         GDExtensionClassLibraryPtr p_library,
         GDExtensionInitialization* r_initialization);
+}
+
+/* INTERFACE */
+
+struct GDExtensionGodotVersion
+{
+	uint32_t major;
+	uint32_t minor;
+	uint32_t patch;
+	const(char)* version_string;
 }
