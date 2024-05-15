@@ -16,7 +16,12 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
             GDExtensionInitialization,
             GDExtensionInitializationLevel,
             GDEXTENSION_INITIALIZATION_SCENE,
-            initializeGDExtensionFunctions;
+            GDExtensionClassCreationInfo2,
+            GDExtensionClassInstancePtr,
+            GDExtensionObjectPtr,
+            initializeGDExtensionFunctions,
+            string_name_new_with_latin1_chars,
+            classdb_register_extension_class2;
         import godot_wrapper.print : print;
     }
 
@@ -76,17 +81,30 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
 
         initializeGDExtensionFunctions(p_get_proc_address);
 
+        GDExtensionClassCreationInfo2 classInfo;
+        classInfo.create_instance_func = &createInstance;
+        classInfo.free_instance_func = &freeInstance;
+
         return true;
     }
 
-    extern(C) static void initialize(void* userdata, GDExtensionInitializationLevel p_level)
+    extern(C) static void initialize(void* userdata, GDExtensionInitializationLevel p_level) nothrow
     {
         print("initialize", "level: %s", p_level);
     }
 
-	extern(C) static void deinitialize(void* userdata, GDExtensionInitializationLevel p_level)
+	extern(C) static void deinitialize(void* userdata, GDExtensionInitializationLevel p_level) nothrow
     {
         print("deinitialize", "level: %s", p_level);
+    }
+
+    extern(C) static GDExtensionObjectPtr createInstance(void* p_class_userdata) nothrow
+    {
+        return null;
+    }
+    
+    extern(C) static void freeInstance(void* p_userdata, GDExtensionClassInstancePtr p_instance) nothrow
+    {
     }
 }
 

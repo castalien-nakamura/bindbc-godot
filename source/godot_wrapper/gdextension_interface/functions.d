@@ -1038,7 +1038,7 @@ Initializes the functions from the GDExtensionInterface.
 Params:
     getProc = The function to get the address of a function from the GDExtensionInterface.
 */
-void initializeGDExtensionFunctions(GDExtensionInterfaceGetProcAddress getProc) @nogc nothrow
+void initializeGDExtensionFunctions(GDExtensionInterfaceGetProcAddress getProc) nothrow
 in (getProc)
 {
     import std.traits : getSymbolsByUDA;
