@@ -11,7 +11,7 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
     private
     {
         import godot_wrapper.gdextension_interface : GDExtensionBool,
-            GDExtensionInterface,
+            GDExtensionInterfaceGetProcAddress,
             GDExtensionClassLibraryPtr,
             GDExtensionInitialization,
             GDExtensionInitializationLevel,
@@ -47,7 +47,7 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
     pragma(mangle, entryPointName)
     export extern(C) static
     GDExtensionBool godot_gdextension_entry(
-        const(GDExtensionInterface)* p_interface,
+        GDExtensionInterfaceGetProcAddress p_get_proc_address,
         GDExtensionClassLibraryPtr p_library,
         GDExtensionInitialization* r_initialization)
     {
@@ -74,7 +74,7 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
         r_initialization.deinitialize = &deinitialize;
         r_initialization.userdata = null;
 
-        initializeGDExtensionFunctions(p_interface);
+        initializeGDExtensionFunctions(p_get_proc_address);
 
         return true;
     }
