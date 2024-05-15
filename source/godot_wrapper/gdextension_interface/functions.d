@@ -8,26 +8,26 @@ import std.stdint : int32_t,
     uint32_t,
     uint64_t;
 
-@nogc nothrow pragma(inline)
+nothrow pragma(inline)
 {
     /* GODOT CORE */
 
-    void get_godot_version(GDExtensionGodotVersion* r_godot_version)
+    void get_godot_version(GDExtensionGodotVersion* r_godot_version) @nogc
     {
         _get_godot_version(r_godot_version);
     }
 
-    void* mem_alloc(size_t p_bytes)
+    void* mem_alloc(size_t p_bytes) @nogc
     {
         return _mem_alloc(p_bytes);
     }
 
-    void* mem_realloc(void* p_ptr, size_t p_bytes)
+    void* mem_realloc(void* p_ptr, size_t p_bytes) @nogc
     {
         return _mem_realloc(p_ptr, p_bytes);
     }
 
-    void mem_free(void* p_ptr)
+    void mem_free(void* p_ptr) @nogc
     {
         _mem_free(p_ptr);
     }
@@ -37,7 +37,7 @@ import std.stdint : int32_t,
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify)
+        GDExtensionBool p_editor_notify) @nogc
     {
         _print_error(p_description, p_function, p_file, p_line, p_editor_notify); 
     }
@@ -48,7 +48,7 @@ import std.stdint : int32_t,
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify)
+        GDExtensionBool p_editor_notify) @nogc
     {
         _print_error_with_message(p_description, p_message, p_function, p_file, p_line, p_editor_notify);
     }
@@ -58,7 +58,7 @@ import std.stdint : int32_t,
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify)
+        GDExtensionBool p_editor_notify) @nogc
     {
         _print_warning(p_description, p_function, p_file, p_line, p_editor_notify);
     }
@@ -69,7 +69,7 @@ import std.stdint : int32_t,
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify)
+        GDExtensionBool p_editor_notify) @nogc
     {
         _print_warning_with_message(p_description, p_message, p_function, p_file, p_line, p_editor_notify);
     }
@@ -79,7 +79,7 @@ import std.stdint : int32_t,
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify)
+        GDExtensionBool p_editor_notify) @nogc
     {
         _print_script_error(p_description, p_function, p_file, p_line, p_editor_notify);
     }
@@ -90,12 +90,12 @@ import std.stdint : int32_t,
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify)
+        GDExtensionBool p_editor_notify) @nogc
     {
         _print_script_error_with_message(p_description, p_message, p_function, p_file, p_line, p_editor_notify);
     }
 
-    uint64_t get_native_struct_size(GDExtensionConstStringNamePtr p_name)
+    uint64_t get_native_struct_size(GDExtensionConstStringNamePtr p_name) @nogc
     {
         return _get_native_struct_size(p_name);
     }
@@ -108,7 +108,7 @@ import std.stdint : int32_t,
         _variant_new_copy(r_dest, p_src);
     }
 
-    void variant_new_nil(GDExtensionVariantPtr r_dest)
+    void variant_new_nil(GDExtensionVariantPtr r_dest) @nogc
     {
         _variant_new_nil(r_dest);
     }
@@ -425,27 +425,27 @@ import std.stdint : int32_t,
     }
 
     /*  extra utilities */
-    void string_new_with_latin1_chars(GDExtensionStringPtr r_dest, const(char)* p_contents)
+    void string_new_with_latin1_chars(GDExtensionStringPtr r_dest, const(char)* p_contents) @nogc
     {
         _string_new_with_latin1_chars(r_dest, p_contents);
     }
 
-    void string_new_with_utf8_chars(GDExtensionStringPtr r_dest, const(char)* p_contents)
+    void string_new_with_utf8_chars(GDExtensionStringPtr r_dest, const(char)* p_contents) @nogc
     {
         _string_new_with_utf8_chars(r_dest, p_contents);
     }
 
-    void string_new_with_utf16_chars(GDExtensionUninitializedStringPtr r_dest, const(char16_t)* p_contents)
+    void string_new_with_utf16_chars(GDExtensionUninitializedStringPtr r_dest, const(char16_t)* p_contents) @nogc
     {
         _string_new_with_utf16_chars(r_dest, p_contents);
     }
 
-    void string_new_with_utf32_chars(GDExtensionStringPtr r_dest, const(char32_t)* p_contents)
+    void string_new_with_utf32_chars(GDExtensionStringPtr r_dest, const(char32_t)* p_contents) @nogc
     {
         _string_new_with_utf32_chars(r_dest, p_contents);
     }
 
-    void string_new_with_wide_chars(GDExtensionUninitializedStringPtr r_dest, const(wchar_t)* p_contents)
+    void string_new_with_wide_chars(GDExtensionUninitializedStringPtr r_dest, const(wchar_t)* p_contents) @nogc
     {
         _string_new_with_wide_chars(r_dest, p_contents);
     }
@@ -453,7 +453,7 @@ import std.stdint : int32_t,
     void string_new_with_latin1_chars_and_len(
         GDExtensionUninitializedStringPtr r_dest,
         const(char)* p_contents,
-        GDExtensionInt p_size)
+        GDExtensionInt p_size) @nogc
     {
         _string_new_with_latin1_chars_and_len(r_dest, p_contents, p_size);
     }
@@ -461,7 +461,7 @@ import std.stdint : int32_t,
     void string_new_with_utf8_chars_and_len(
         GDExtensionUninitializedStringPtr r_dest,
         const(char)* p_contents,
-        GDExtensionInt p_size)
+        GDExtensionInt p_size) @nogc
     {
         _string_new_with_utf8_chars_and_len(r_dest, p_contents, p_size);
     }
@@ -469,7 +469,7 @@ import std.stdint : int32_t,
     void string_new_with_utf16_chars_and_len(
         GDExtensionUninitializedStringPtr r_dest,
         const(char16_t)* p_contents,
-        GDExtensionInt p_size)
+        GDExtensionInt p_size) @nogc
     {
         _string_new_with_utf16_chars_and_len(r_dest, p_contents, p_size);
     }
@@ -477,7 +477,7 @@ import std.stdint : int32_t,
     void string_new_with_utf32_chars_and_len(
         GDExtensionUninitializedStringPtr r_dest,
         const(char32_t)* p_contents,
-        GDExtensionInt p_size)
+        GDExtensionInt p_size) @nogc
     {
         _string_new_with_utf32_chars_and_len(r_dest, p_contents, p_size);
     }
@@ -485,7 +485,7 @@ import std.stdint : int32_t,
     void string_new_with_wide_chars_and_len(
         GDExtensionUninitializedStringPtr r_dest,
         const(wchar_t)* p_contents,
-        GDExtensionInt p_size)
+        GDExtensionInt p_size) @nogc
     {
         _string_new_with_wide_chars_and_len(r_dest, p_contents, p_size);
     }
@@ -493,7 +493,7 @@ import std.stdint : int32_t,
     GDExtensionInt string_to_latin1_chars(
         GDExtensionConstStringPtr p_self,
         char* r_text,
-        GDExtensionInt p_max_write_length)
+        GDExtensionInt p_max_write_length) @nogc
     {
         return _string_to_latin1_chars(p_self, r_text, p_max_write_length);
     }
@@ -501,7 +501,7 @@ import std.stdint : int32_t,
     GDExtensionInt string_to_utf8_chars(
         GDExtensionConstStringPtr p_self,
         char* r_text,
-        GDExtensionInt p_max_write_length)
+        GDExtensionInt p_max_write_length) @nogc
     {
         return _string_to_utf8_chars(p_self, r_text, p_max_write_length);
     }
@@ -509,7 +509,7 @@ import std.stdint : int32_t,
     GDExtensionInt string_to_utf16_chars(
         GDExtensionConstStringPtr p_self,
         char16_t* r_text,
-        GDExtensionInt p_max_write_length)
+        GDExtensionInt p_max_write_length) @nogc
     {
         return _string_to_utf16_chars(p_self, r_text, p_max_write_length);
     }
@@ -517,7 +517,7 @@ import std.stdint : int32_t,
     GDExtensionInt string_to_utf32_chars(
         GDExtensionConstStringPtr p_self,
         char32_t* r_text,
-        GDExtensionInt p_max_write_length)
+        GDExtensionInt p_max_write_length) @nogc
     {
         return _string_to_utf32_chars(p_self, r_text, p_max_write_length);
     }
@@ -525,51 +525,51 @@ import std.stdint : int32_t,
     GDExtensionInt string_to_wide_chars(
         GDExtensionConstStringPtr p_self,
         wchar_t* r_text,
-        GDExtensionInt p_max_write_length)
+        GDExtensionInt p_max_write_length) @nogc
     {
         return _string_to_wide_chars(p_self, r_text, p_max_write_length);
     }
 
-    char32_t* string_operator_index(GDExtensionStringPtr p_self, GDExtensionInt p_index)
+    char32_t* string_operator_index(GDExtensionStringPtr p_self, GDExtensionInt p_index) @nogc
     {
         return _string_operator_index(p_self, p_index);
     }
 
     const(char32_t)* string_operator_index_const(
         GDExtensionConstStringPtr p_self,
-        GDExtensionInt p_index)
+        GDExtensionInt p_index) @nogc
     {
         return _string_operator_index_const(p_self, p_index);
     }
 
     void string_operator_plus_eq_string(
         GDExtensionStringPtr p_self,
-        GDExtensionConstStringPtr p_b)
+        GDExtensionConstStringPtr p_b) @nogc
     {
         _string_operator_plus_eq_string(p_self, p_b);
     }
 
-    void string_operator_plus_eq_char(GDExtensionStringPtr p_self, char32_t p_b)
+    void string_operator_plus_eq_char(GDExtensionStringPtr p_self, char32_t p_b) @nogc
     {
         _string_operator_plus_eq_char(p_self, p_b);
     }
 
-    void string_operator_plus_eq_cstr(GDExtensionStringPtr p_self, const(char)* p_b)
+    void string_operator_plus_eq_cstr(GDExtensionStringPtr p_self, const(char)* p_b) @nogc
     {
         _string_operator_plus_eq_cstr(p_self, p_b);
     }
 
-    void string_operator_plus_eq_wcstr(GDExtensionStringPtr p_self, const(wchar_t)* p_b)
+    void string_operator_plus_eq_wcstr(GDExtensionStringPtr p_self, const(wchar_t)* p_b) @nogc
     {
         _string_operator_plus_eq_wcstr(p_self, p_b);
     }
 
-    void string_operator_plus_eq_c32str(GDExtensionStringPtr p_self, const(char32_t)* p_b)
+    void string_operator_plus_eq_c32str(GDExtensionStringPtr p_self, const(char32_t)* p_b) @nogc
     {
         _string_operator_plus_eq_c32str(p_self, p_b);
     }
 
-    GDExtensionInt string_resize(GDExtensionStringPtr p_self, GDExtensionInt p_resize) 
+    GDExtensionInt string_resize(GDExtensionStringPtr p_self, GDExtensionInt p_resize) @nogc
     {
         return _string_resize(p_self, p_resize);
     }
@@ -577,14 +577,14 @@ import std.stdint : int32_t,
     void string_name_new_with_latin1_chars(
         GDExtensionUninitializedStringNamePtr r_dest,
         const(char)* p_contents,
-        GDExtensionBool p_is_static)
+        GDExtensionBool p_is_static) @nogc
     {
         _string_name_new_with_latin1_chars(r_dest, p_contents, p_is_static);
     }
 
     void string_name_new_with_utf8_chars(
         GDExtensionUninitializedStringNamePtr r_dest,
-        const(char)* p_contents)
+        const(char)* p_contents) @nogc
     {
         _string_name_new_with_utf8_chars(r_dest, p_contents);
     }
@@ -592,7 +592,7 @@ import std.stdint : int32_t,
     void string_name_new_with_utf8_chars_and_len(
         GDExtensionUninitializedStringNamePtr r_dest,
         const(char)* p_contents,
-        GDExtensionInt p_size)
+        GDExtensionInt p_size) @nogc
     {
         _string_name_new_with_utf8_chars_and_len(r_dest, p_contents, p_size);
     }
@@ -602,19 +602,19 @@ import std.stdint : int32_t,
     GDExtensionInt xml_parser_open_buffer(
         GDExtensionObjectPtr p_instance,
         const(uint8_t)* p_buffer,
-        size_t p_size)
+        size_t p_size) @nogc
     {
         return _xml_parser_open_buffer(p_instance, p_buffer, p_size);
     }
 
     /*  FileAccess extra utilities */
 
-    void file_access_store_buffer(GDExtensionObjectPtr p_instance, const(uint8_t)* p_src, uint64_t p_length)
+    void file_access_store_buffer(GDExtensionObjectPtr p_instance, const(uint8_t)* p_src, uint64_t p_length) @nogc
     {
         _file_access_store_buffer(p_instance, p_src, p_length);
     }
 
-    uint64_t file_access_get_buffer(GDExtensionConstObjectPtr p_instance, uint8_t* p_dst, uint64_t p_length)
+    uint64_t file_access_get_buffer(GDExtensionConstObjectPtr p_instance, uint8_t* p_dst, uint64_t p_length) @nogc
     {
         return _file_access_get_buffer(p_instance, p_dst, p_length);
     }
@@ -628,7 +628,7 @@ import std.stdint : int32_t,
         int p_elements,
         int p_tasks,
         GDExtensionBool p_high_priority,
-        GDExtensionConstStringPtr p_description)
+        GDExtensionConstStringPtr p_description) @nogc
     {
         return _worker_thread_pool_add_native_group_task(
             p_instance, p_func, p_userdata, p_elements, p_tasks, p_high_priority, p_description);
@@ -639,7 +639,7 @@ import std.stdint : int32_t,
         GDTaskFunction p_func,
         void* p_userdata,
         GDExtensionBool p_high_priority,
-        GDExtensionConstStringPtr p_description)
+        GDExtensionConstStringPtr p_description) @nogc
     {
         return _worker_thread_pool_add_native_task(
             p_instance, p_func, p_userdata, p_high_priority, p_description);
@@ -647,94 +647,128 @@ import std.stdint : int32_t,
 
     /* Packed array functions */
 
-    uint8_t* packed_byte_array_operator_index(GDExtensionTypePtr p_self, GDExtensionInt p_index)
+    uint8_t* packed_byte_array_operator_index(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_byte_array_operator_index(p_self, p_index);
     }
 
-    const(uint8_t)* packed_byte_array_operator_index_const(GDExtensionConstTypePtr p_self, GDExtensionInt p_index)
+    const(uint8_t)* packed_byte_array_operator_index_const(
+        GDExtensionConstTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_byte_array_operator_index_const(p_self, p_index);
     }
 
-    GDExtensionTypePtr packed_color_array_operator_index(GDExtensionTypePtr p_self, GDExtensionInt p_index)
+    GDExtensionTypePtr packed_color_array_operator_index(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_color_array_operator_index(p_self, p_index);
     }
 
-    GDExtensionTypePtr packed_color_array_operator_index_const(GDExtensionConstTypePtr p_self, GDExtensionInt p_index)
+    GDExtensionTypePtr packed_color_array_operator_index_const(
+        GDExtensionConstTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_color_array_operator_index_const(p_self, p_index);
     }
 
-    float* packed_float32_array_operator_index(GDExtensionTypePtr p_self, GDExtensionInt p_index)
+    float* packed_float32_array_operator_index(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_float32_array_operator_index(p_self, p_index);
     }
 
-    const(float)* packed_float32_array_operator_index_const(GDExtensionConstTypePtr p_self, GDExtensionInt p_index)
+    const(float)* packed_float32_array_operator_index_const(
+        GDExtensionConstTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_float32_array_operator_index_const(p_self, p_index);
     }
 
-    double* packed_float64_array_operator_index(GDExtensionTypePtr p_self, GDExtensionInt p_index)
+    double* packed_float64_array_operator_index(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_float64_array_operator_index(p_self, p_index);
     }
 
-    const(double)* packed_float64_array_operator_index_const(GDExtensionConstTypePtr p_self, GDExtensionInt p_index)
+    const(double)* packed_float64_array_operator_index_const(
+        GDExtensionConstTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_float64_array_operator_index_const(p_self, p_index);
     }
 
-    int32_t* packed_int32_array_operator_index(GDExtensionTypePtr p_self, GDExtensionInt p_index)
+    int32_t* packed_int32_array_operator_index(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_int32_array_operator_index(p_self, p_index);
     }
 
-    const(int32_t)* packed_int32_array_operator_index_const(GDExtensionConstTypePtr p_self, GDExtensionInt p_index)
+    const(int32_t)* packed_int32_array_operator_index_const(
+        GDExtensionConstTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_int32_array_operator_index_const(p_self, p_index);
     }
 
-    int64_t* packed_int64_array_operator_index(GDExtensionTypePtr p_self, GDExtensionInt p_index)
+    int64_t* packed_int64_array_operator_index(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_int64_array_operator_index(p_self, p_index);
     }
 
-    const(int64_t)* packed_int64_array_operator_index_const(GDExtensionConstTypePtr p_self, GDExtensionInt p_index)
+    const(int64_t)* packed_int64_array_operator_index_const(
+        GDExtensionConstTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_int64_array_operator_index_const(p_self, p_index);
     }
 
-    GDExtensionStringPtr packed_string_array_operator_index(GDExtensionTypePtr p_self, GDExtensionInt p_index)
+    GDExtensionStringPtr packed_string_array_operator_index(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_string_array_operator_index(p_self, p_index);
     }
 
     GDExtensionStringPtr packed_string_array_operator_index_const(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index)
+        GDExtensionInt p_index) @nogc
     {
         return _packed_string_array_operator_index_const(p_self, p_index);
     }
 
-    GDExtensionTypePtr packed_vector2_array_operator_index(GDExtensionTypePtr p_self, GDExtensionInt p_index)
+    GDExtensionTypePtr packed_vector2_array_operator_index(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_vector2_array_operator_index(p_self, p_index);
     }
 
-    GDExtensionTypePtr packed_vector2_array_operator_index_const(GDExtensionConstTypePtr p_self, GDExtensionInt p_index)
+    GDExtensionTypePtr packed_vector2_array_operator_index_const(
+        GDExtensionConstTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_vector2_array_operator_index_const(p_self, p_index);
     }
 
-    GDExtensionTypePtr packed_vector3_array_operator_index(GDExtensionTypePtr p_self, GDExtensionInt p_index)
+    GDExtensionTypePtr packed_vector3_array_operator_index(
+        GDExtensionTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_vector3_array_operator_index(p_self, p_index);
     }
 
-    GDExtensionTypePtr packed_vector3_array_operator_index_const(GDExtensionConstTypePtr p_self, GDExtensionInt p_index)
+    GDExtensionTypePtr packed_vector3_array_operator_index_const(
+        GDExtensionConstTypePtr p_self,
+        GDExtensionInt p_index) @nogc
     {
         return _packed_vector3_array_operator_index_const(p_self, p_index);
     }
@@ -1016,7 +1050,7 @@ import std.stdint : int32_t,
         _classdb_unregister_extension_class(p_library, p_class_name);
     }
 
-    void get_library_path(GDExtensionClassLibraryPtr p_library, GDExtensionStringPtr r_path)
+    void get_library_path(GDExtensionClassLibraryPtr p_library, GDExtensionStringPtr r_path) @nogc
     {
         _get_library_path(p_library, r_path);
     }
@@ -1054,36 +1088,19 @@ private:
 
 enum GodotFunctionName;
 
-extern(C) @nogc nothrow @system
+extern(C) nothrow @system
 {
     @(GodotFunctionName)
-    void function(GDExtensionGodotVersion* r_godot_version) _get_godot_version;
+    void function(GDExtensionGodotVersion* r_godot_version) @nogc _get_godot_version;
     
     @(GodotFunctionName)
-    void* function(size_t p_bytes) _mem_alloc;
+    void* function(size_t p_bytes) @nogc _mem_alloc;
     
     @(GodotFunctionName)
-    void* function(void* p_ptr, size_t p_bytes) _mem_realloc;
+    void* function(void* p_ptr, size_t p_bytes) @nogc _mem_realloc;
     
     @(GodotFunctionName)
-    void function(void* p_ptr) _mem_free;
-    
-    @(GodotFunctionName)
-    void function(
-        const(char)* p_description,
-        const(char)* p_function,
-        const(char)* p_file,
-        int32_t p_line,
-        GDExtensionBool p_editor_notify) _print_error;
-    
-    @(GodotFunctionName)
-    void function(
-        const(char)* p_description,
-        const(char)* p_message,
-        const(char)* p_function,
-        const(char)* p_file,
-        int32_t p_line,
-        GDExtensionBool p_editor_notify) _print_error_with_message;
+    void function(void* p_ptr) @nogc _mem_free;
     
     @(GodotFunctionName)
     void function(
@@ -1091,7 +1108,7 @@ extern(C) @nogc nothrow @system
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify) _print_warning;
+        GDExtensionBool p_editor_notify) @nogc _print_error;
     
     @(GodotFunctionName)
     void function(
@@ -1100,7 +1117,7 @@ extern(C) @nogc nothrow @system
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify) _print_warning_with_message;
+        GDExtensionBool p_editor_notify) @nogc _print_error_with_message;
     
     @(GodotFunctionName)
     void function(
@@ -1108,7 +1125,7 @@ extern(C) @nogc nothrow @system
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify) _print_script_error;
+        GDExtensionBool p_editor_notify) @nogc _print_warning;
     
     @(GodotFunctionName)
     void function(
@@ -1117,16 +1134,35 @@ extern(C) @nogc nothrow @system
         const(char)* p_function,
         const(char)* p_file,
         int32_t p_line,
-        GDExtensionBool p_editor_notify) _print_script_error_with_message;
+        GDExtensionBool p_editor_notify) @nogc _print_warning_with_message;
     
     @(GodotFunctionName)
-    uint64_t function(GDExtensionConstStringNamePtr p_name) _get_native_struct_size;
+    void function(
+        const(char)* p_description,
+        const(char)* p_function,
+        const(char)* p_file,
+        int32_t p_line,
+        GDExtensionBool p_editor_notify) @nogc _print_script_error;
     
     @(GodotFunctionName)
-    void function(GDExtensionUninitializedVariantPtr r_dest, GDExtensionConstVariantPtr p_src) _variant_new_copy;
+    void function(
+        const(char)* p_description,
+        const(char)* p_message,
+        const(char)* p_function,
+        const(char)* p_file,
+        int32_t p_line,
+        GDExtensionBool p_editor_notify) @nogc _print_script_error_with_message;
     
     @(GodotFunctionName)
-    void function(GDExtensionUninitializedVariantPtr r_dest) _variant_new_nil;
+    uint64_t function(GDExtensionConstStringNamePtr p_name) @nogc _get_native_struct_size;
+    
+    @(GodotFunctionName)
+    void function(
+        GDExtensionUninitializedVariantPtr r_dest,
+        GDExtensionConstVariantPtr p_src)_variant_new_copy;
+    
+    @(GodotFunctionName)
+    void function(GDExtensionUninitializedVariantPtr r_dest) @nogc _variant_new_nil;
     
     @(GodotFunctionName)
     void function(GDExtensionVariantPtr p_self) _variant_destroy;
@@ -1373,162 +1409,162 @@ extern(C) @nogc nothrow @system
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringPtr r_dest,
-        const(char)* p_contents) _string_new_with_latin1_chars;
+        const(char)* p_contents) @nogc _string_new_with_latin1_chars;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringPtr r_dest,
-        const(char)* p_contents) _string_new_with_utf8_chars;
+        const(char)* p_contents) @nogc _string_new_with_utf8_chars;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringPtr r_dest,
-        const(char16_t)* p_contents) _string_new_with_utf16_chars;
+        const(char16_t)* p_contents) @nogc _string_new_with_utf16_chars;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringPtr r_dest,
-        const(char32_t)* p_contents) _string_new_with_utf32_chars;
+        const(char32_t)* p_contents) @nogc _string_new_with_utf32_chars;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringPtr r_dest,
-        const(wchar_t)* p_contents) _string_new_with_wide_chars;
-
-    @(GodotFunctionName)
-    void function(
-        GDExtensionUninitializedStringPtr r_dest,
-        const(char)* p_contents,
-        GDExtensionInt p_size) _string_new_with_latin1_chars_and_len;
+        const(wchar_t)* p_contents) @nogc _string_new_with_wide_chars;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char)* p_contents,
-        GDExtensionInt p_size) _string_new_with_utf8_chars_and_len;
+        GDExtensionInt p_size) @nogc _string_new_with_latin1_chars_and_len;
+
+    @(GodotFunctionName)
+    void function(
+        GDExtensionUninitializedStringPtr r_dest,
+        const(char)* p_contents,
+        GDExtensionInt p_size) @nogc _string_new_with_utf8_chars_and_len;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char16_t)* p_contents,
-        GDExtensionInt p_char_count) _string_new_with_utf16_chars_and_len;
+        GDExtensionInt p_char_count) @nogc _string_new_with_utf16_chars_and_len;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char32_t)* p_contents,
-        GDExtensionInt p_char_count) _string_new_with_utf32_chars_and_len;
+        GDExtensionInt p_char_count) @nogc _string_new_with_utf32_chars_and_len;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(wchar_t)* p_contents,
-        GDExtensionInt p_char_count) _string_new_with_wide_chars_and_len;
+        GDExtensionInt p_char_count) @nogc _string_new_with_wide_chars_and_len;
 
     @(GodotFunctionName)
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         char* r_text,
-        GDExtensionInt p_max_write_length) _string_to_latin1_chars;
+        GDExtensionInt p_max_write_length) @nogc _string_to_latin1_chars;
 
     @(GodotFunctionName)
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         char* r_text,
-        GDExtensionInt p_max_write_length) _string_to_utf8_chars;
+        GDExtensionInt p_max_write_length) @nogc _string_to_utf8_chars;
 
     @(GodotFunctionName)
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         char16_t* r_text,
-        GDExtensionInt p_max_write_length) _string_to_utf16_chars;
+        GDExtensionInt p_max_write_length) @nogc _string_to_utf16_chars;
 
     @(GodotFunctionName)
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         char32_t* r_text,
-        GDExtensionInt p_max_write_length) _string_to_utf32_chars;
+        GDExtensionInt p_max_write_length) @nogc _string_to_utf32_chars;
 
     @(GodotFunctionName)
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         wchar_t* r_text,
-        GDExtensionInt p_max_write_length) _string_to_wide_chars;
+        GDExtensionInt p_max_write_length) @nogc _string_to_wide_chars;
 
     @(GodotFunctionName)
     char32_t* function(
         GDExtensionStringPtr p_self,
-        GDExtensionInt p_index) _string_operator_index;
+        GDExtensionInt p_index) @nogc _string_operator_index;
 
     @(GodotFunctionName)
     const(char32_t)* function(
         GDExtensionConstStringPtr p_self,
-        GDExtensionInt p_index) _string_operator_index_const;
+        GDExtensionInt p_index) @nogc _string_operator_index_const;
 
     @(GodotFunctionName)
     void function(
         GDExtensionStringPtr p_self,
-        GDExtensionConstStringPtr p_b) _string_operator_plus_eq_string;
+        GDExtensionConstStringPtr p_b) @nogc _string_operator_plus_eq_string;
 
     @(GodotFunctionName)
     void function(
         GDExtensionStringPtr p_self,
-        char32_t p_b) _string_operator_plus_eq_char;
+        char32_t p_b) @nogc _string_operator_plus_eq_char;
 
     @(GodotFunctionName)
     void function(
         GDExtensionStringPtr p_self,
-        const(char)* p_b) _string_operator_plus_eq_cstr;
+        const(char)* p_b) @nogc _string_operator_plus_eq_cstr;
 
     @(GodotFunctionName)
     void function(
         GDExtensionStringPtr p_self,
-        const(wchar_t)* p_b) _string_operator_plus_eq_wcstr;
+        const(wchar_t)* p_b) @nogc _string_operator_plus_eq_wcstr;
 
     @(GodotFunctionName)
     void function(
         GDExtensionStringPtr p_self,
-        const(char32_t)* p_b) _string_operator_plus_eq_c32str;
+        const(char32_t)* p_b) @nogc _string_operator_plus_eq_c32str;
 
     @(GodotFunctionName)
     GDExtensionInt function(
         GDExtensionStringPtr p_self,
-        GDExtensionInt p_resize) _string_resize;
+        GDExtensionInt p_resize) @nogc _string_resize;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringNamePtr r_dest,
         const(char)* p_contents,
-        GDExtensionBool p_is_static) _string_name_new_with_latin1_chars;
+        GDExtensionBool p_is_static) @nogc _string_name_new_with_latin1_chars;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringNamePtr r_dest,
-        const(char)* p_contents) _string_name_new_with_utf8_chars;
+        const(char)* p_contents) @nogc _string_name_new_with_utf8_chars;
 
     @(GodotFunctionName)
     void function(
         GDExtensionUninitializedStringNamePtr r_dest,
         const(char)* p_contents,
-        GDExtensionInt p_size) _string_name_new_with_utf8_chars_and_len;
+        GDExtensionInt p_size) @nogc _string_name_new_with_utf8_chars_and_len;
 
     @(GodotFunctionName)
     GDExtensionInt function(
         GDExtensionObjectPtr p_instance,
         const(uint8_t)* p_buffer,
-        size_t p_size) _xml_parser_open_buffer;
+        size_t p_size) @nogc _xml_parser_open_buffer;
 
     @(GodotFunctionName)
     void function(
         GDExtensionObjectPtr p_instance,
         const(uint8_t)* p_src,
-        uint64_t p_length) _file_access_store_buffer;
+        uint64_t p_length) @nogc _file_access_store_buffer;
 
     @(GodotFunctionName)
     uint64_t function(
         GDExtensionConstObjectPtr p_instance,
         uint8_t* p_dst,
-        uint64_t p_length) _file_access_get_buffer;
+        uint64_t p_length) @nogc _file_access_get_buffer;
 
     @(GodotFunctionName)
     int64_t function(
@@ -1538,7 +1574,7 @@ extern(C) @nogc nothrow @system
         int p_elements,
         int p_tasks,
         GDExtensionBool p_high_priority,
-        GDExtensionConstStringPtr p_description) _worker_thread_pool_add_native_group_task;
+        GDExtensionConstStringPtr p_description) @nogc _worker_thread_pool_add_native_group_task;
 
     @(GodotFunctionName)
     int64_t function(
@@ -1546,97 +1582,97 @@ extern(C) @nogc nothrow @system
         GDTaskFunction p_func,
         void* p_userdata,
         GDExtensionBool p_high_priority,
-        GDExtensionConstStringPtr p_description) _worker_thread_pool_add_native_task;
+        GDExtensionConstStringPtr p_description) @nogc _worker_thread_pool_add_native_task;
 
     @(GodotFunctionName)
     uint8_t* function(
         GDExtensionTypePtr p_self,
-        GDExtensionInt p_index) _packed_byte_array_operator_index;
+        GDExtensionInt p_index) @nogc _packed_byte_array_operator_index;
 
     @(GodotFunctionName)
     const(uint8_t)* function(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index) _packed_byte_array_operator_index_const;
+        GDExtensionInt p_index) @nogc _packed_byte_array_operator_index_const;
 
     @(GodotFunctionName)
     GDExtensionTypePtr function(
         GDExtensionTypePtr p_self,
-        GDExtensionInt p_index) _packed_color_array_operator_index;
+        GDExtensionInt p_index) @nogc _packed_color_array_operator_index;
 
     @(GodotFunctionName)
     GDExtensionTypePtr function(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index) _packed_color_array_operator_index_const;
+        GDExtensionInt p_index) @nogc _packed_color_array_operator_index_const;
 
     @(GodotFunctionName)
     float* function(
         GDExtensionTypePtr p_self,
-        GDExtensionInt p_index) _packed_float32_array_operator_index;
+        GDExtensionInt p_index) @nogc _packed_float32_array_operator_index;
 
     @(GodotFunctionName)
     const(float)* function(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index) _packed_float32_array_operator_index_const;
+        GDExtensionInt p_index) @nogc _packed_float32_array_operator_index_const;
 
     @(GodotFunctionName)
     double* function(
         GDExtensionTypePtr p_self,
-        GDExtensionInt p_index) _packed_float64_array_operator_index;
+        GDExtensionInt p_index) @nogc _packed_float64_array_operator_index;
 
     @(GodotFunctionName)
     const(double)* function(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index) _packed_float64_array_operator_index_const;
+        GDExtensionInt p_index)@nogc  _packed_float64_array_operator_index_const;
 
     @(GodotFunctionName)
     int32_t* function(
         GDExtensionTypePtr p_self,
-        GDExtensionInt p_index) _packed_int32_array_operator_index;
+        GDExtensionInt p_index) @nogc _packed_int32_array_operator_index;
 
     @(GodotFunctionName)
     const(int32_t)* function(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index) _packed_int32_array_operator_index_const;
+        GDExtensionInt p_index) @nogc _packed_int32_array_operator_index_const;
 
     @(GodotFunctionName)
     int64_t* function(
         GDExtensionTypePtr p_self,
-        GDExtensionInt p_index) _packed_int64_array_operator_index;
+        GDExtensionInt p_index) @nogc _packed_int64_array_operator_index;
 
     @(GodotFunctionName)
     const(int64_t)* function(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index) _packed_int64_array_operator_index_const;
+        GDExtensionInt p_index) @nogc _packed_int64_array_operator_index_const;
 
     @(GodotFunctionName)
     GDExtensionStringPtr function(
         GDExtensionTypePtr p_self,
-        GDExtensionInt p_index) _packed_string_array_operator_index;
+        GDExtensionInt p_index) @nogc _packed_string_array_operator_index;
 
     @(GodotFunctionName)
     GDExtensionStringPtr function(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index) _packed_string_array_operator_index_const;
+        GDExtensionInt p_index) @nogc _packed_string_array_operator_index_const;
 
     @(GodotFunctionName)
     GDExtensionTypePtr function(
         GDExtensionTypePtr p_self,
-        GDExtensionInt p_index) _packed_vector2_array_operator_index;
+        GDExtensionInt p_index) @nogc _packed_vector2_array_operator_index;
 
     @(GodotFunctionName)
     GDExtensionTypePtr function(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index) _packed_vector2_array_operator_index_const;
+        GDExtensionInt p_index) @nogc _packed_vector2_array_operator_index_const;
 
     @(GodotFunctionName)
     GDExtensionTypePtr function(
         GDExtensionTypePtr p_self,
-        GDExtensionInt p_index) _packed_vector3_array_operator_index;
+        GDExtensionInt p_index) @nogc _packed_vector3_array_operator_index;
 
     @(GodotFunctionName)
     GDExtensionTypePtr function(
         GDExtensionConstTypePtr p_self,
-        GDExtensionInt p_index) _packed_vector3_array_operator_index_const;
+        GDExtensionInt p_index) @nogc _packed_vector3_array_operator_index_const;
 
     @(GodotFunctionName)
     GDExtensionVariantPtr function(
@@ -1851,7 +1887,7 @@ extern(C) @nogc nothrow @system
     @(GodotFunctionName)
     void function(
         GDExtensionClassLibraryPtr p_library,
-        GDExtensionUninitializedStringPtr r_path) _get_library_path;
+        GDExtensionUninitializedStringPtr r_path) @nogc _get_library_path;
 
     @(GodotFunctionName)
     void function(GDExtensionConstStringNamePtr p_class_name) _editor_add_plugin;
