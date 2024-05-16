@@ -103,12 +103,12 @@ nothrow pragma(inline)
     /* GODOT VARIANT */
 
     /* variant general */
-    void variant_new_copy(GDExtensionVariantPtr r_dest, GDExtensionConstVariantPtr p_src)
+    void variant_new_copy(GDExtensionUninitializedVariantPtr r_dest, GDExtensionConstVariantPtr p_src)
     {
         _variant_new_copy(r_dest, p_src);
     }
 
-    void variant_new_nil(GDExtensionVariantPtr r_dest) @nogc
+    void variant_new_nil(GDExtensionUninitializedVariantPtr r_dest) @nogc
     {
         _variant_new_nil(r_dest);
     }
@@ -425,12 +425,12 @@ nothrow pragma(inline)
     }
 
     /*  extra utilities */
-    void string_new_with_latin1_chars(GDExtensionStringPtr r_dest, const(char)* p_contents) @nogc
+    void string_new_with_latin1_chars(GDExtensionUninitializedStringPtr r_dest, const(char)* p_contents) @nogc
     {
         _string_new_with_latin1_chars(r_dest, p_contents);
     }
 
-    void string_new_with_utf8_chars(GDExtensionStringPtr r_dest, const(char)* p_contents) @nogc
+    void string_new_with_utf8_chars(GDExtensionUninitializedStringPtr r_dest, const(char)* p_contents) @nogc
     {
         _string_new_with_utf8_chars(r_dest, p_contents);
     }
@@ -440,7 +440,7 @@ nothrow pragma(inline)
         _string_new_with_utf16_chars(r_dest, p_contents);
     }
 
-    void string_new_with_utf32_chars(GDExtensionStringPtr r_dest, const(char32_t)* p_contents) @nogc
+    void string_new_with_utf32_chars(GDExtensionUninitializedStringPtr r_dest, const(char32_t)* p_contents) @nogc
     {
         _string_new_with_utf32_chars(r_dest, p_contents);
     }
