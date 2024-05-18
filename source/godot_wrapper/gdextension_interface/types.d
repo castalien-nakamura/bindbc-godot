@@ -258,7 +258,7 @@ alias GDExtensionClassCallVirtual = void function(
     GDExtensionTypePtr r_ret);
 alias GDExtensionClassCreateInstance = GDExtensionObjectPtr function(void* p_class_userdata);
 alias GDExtensionClassFreeInstance = void function(
-    void* p_userdata, GDExtensionClassInstancePtr p_instance);
+    void* p_class_userdata, GDExtensionClassInstancePtr p_instance);
 alias GDExtensionClassRecreateInstance = GDExtensionClassInstancePtr function(
     void *p_class_userdata, GDExtensionObjectPtr p_object);
 alias GDExtensionClassGetVirtual = GDExtensionClassCallVirtual function(
