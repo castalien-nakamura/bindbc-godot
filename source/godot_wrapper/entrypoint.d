@@ -27,7 +27,7 @@ import godot_wrapper.gdextension_interface : GDExtensionBool,
     classdb_construct_object,
     classdb_register_extension_class2;
 import godot_wrapper.print : print;
-import godot_wrapper.builtins : StringName;
+import godot_wrapper.builtins : GodotStringName;
 
 /** 
 Godot entry point for the dynamic library.
@@ -127,15 +127,17 @@ GDExtensionBool godotGDExtensionEntryPointImpl(
 
     initializeGDExtensionFunctions(p_get_proc_address);
     
-    StringName testClassName;
+    GodotStringName testClassName;
     string_name_new_with_latin1_chars(&testClassName, "PoetClass", true);
-    StringName parentClassName;
+    GodotStringName parentClassName;
     string_name_new_with_latin1_chars(&parentClassName, "RefCounted", true);
 
     GDExtensionClassCreationInfo2 classInfo;
     classInfo.is_exposed = true;
     classInfo.create_instance_func = &createInstance;
     classInfo.free_instance_func = &freeInstance;
+    classInfo.reference_func = &classReference;
+    classInfo.unreference_func = &classUnreference;
 
     classdb_register_extension_class2(
         p_library,
@@ -160,7 +162,7 @@ extern(C) GDExtensionObjectPtr createInstance(void* p_class_userdata) nothrow
 {
     print("createInstance");
 
-    StringName className;
+    GodotStringName className;
     string_name_new_with_latin1_chars(&className, "RefCounted", true);
     auto godotObject = classdb_construct_object(&className);
     return godotObject;
@@ -169,4 +171,14 @@ extern(C) GDExtensionObjectPtr createInstance(void* p_class_userdata) nothrow
 extern(C) void freeInstance(void* p_class_userdata, GDExtensionClassInstancePtr p_instance) nothrow
 {
     print("freeInstance");
+}
+
+extern(C) void classReference(GDExtensionClassInstancePtr p_instance) nothrow
+{
+    print("classReference", "p_instance: %s", p_instance);
+}
+
+extern(C) void classUnreference(GDExtensionClassInstancePtr p_instance) nothrow
+{
+    print("classUnreference", "p_instance: %s", p_instance);
 }
