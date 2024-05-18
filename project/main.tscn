@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://8wvrelgxohy6"]
+[gd_scene load_steps=2 format=3 uid="uid://8wvrelgxohy6"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_igile"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_igile")
