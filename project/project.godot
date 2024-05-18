@@ -14,6 +14,10 @@ config/name="test"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[editor]
+
+run/main_run_args="--verbose"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
