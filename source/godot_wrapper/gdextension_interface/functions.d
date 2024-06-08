@@ -818,7 +818,7 @@ nothrow pragma(inline)
         GDExtensionObjectPtr p_instance,
         const(GDExtensionConstVariantPtr)* p_args,
         GDExtensionInt p_arg_count,
-        GDExtensionVariantPtr r_ret,
+        GDExtensionUninitializedVariantPtr r_ret,
         GDExtensionCallError* r_error)
     {
         _object_method_bind_call(p_method_bind, p_instance, p_args, p_arg_count, r_ret, r_error);
