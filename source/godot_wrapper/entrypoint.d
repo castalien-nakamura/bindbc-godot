@@ -10,6 +10,7 @@ import godot_wrapper.gdextension_interface : GDExtensionBool,
     GDExtensionInitialization,
     GDExtensionInitializationLevel,
     GDEXTENSION_INITIALIZATION_SCENE,
+    GDExtensionCallError,
     GDExtensionClassCallVirtual,
     GDExtensionClassCreationInfo2,
     GDExtensionClassInstancePtr,
@@ -25,9 +26,17 @@ import godot_wrapper.gdextension_interface : GDExtensionBool,
     initializeGDExtensionFunctions,
     string_name_new_with_latin1_chars,
     classdb_construct_object,
-    classdb_register_extension_class2;
+    classdb_get_method_bind,
+    classdb_register_extension_class2,
+    object_method_bind_call,
+    variant_booleanize,
+    object_set_instance,
+    mem_alloc,
+    mem_free,
+    object_destroy;
 import godot_wrapper.print : print;
-import godot_wrapper.builtins : GodotStringName;
+import godot_wrapper.builtins : GodotStringName,
+    GodotVariant;
 
 /** 
 Godot entry point for the dynamic library.
@@ -80,12 +89,23 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
     }
 }
 
+/** 
+Returns:
+    The pointer to the Godot class library.
+*/
+GDExtensionClassLibraryPtr getGodotClassLibraryPointer() @nogc nothrow
+{
+    return godotClassLibraryPointer_;
+}
+
 private:
 
 version (GODOT_WRAPPER_TEST_EXTENSION)
 {
     mixin GodotWrapperEntryPoint!"test_extension_entry_point";
 }
+
+__gshared GDExtensionClassLibraryPtr godotClassLibraryPointer_;
 
 /**
 Godot entry point for the dynamic library.
@@ -120,30 +140,13 @@ GDExtensionBool godotGDExtensionEntryPointImpl(
         }
     }
 
+    godotClassLibraryPointer_ = p_library;
     r_initialization.minimum_initialization_level = GDEXTENSION_INITIALIZATION_SCENE;
     r_initialization.initialize = &initialize;
     r_initialization.deinitialize = &deinitialize;
     r_initialization.userdata = null;
 
     initializeGDExtensionFunctions(p_get_proc_address);
-    
-    GodotStringName testClassName;
-    string_name_new_with_latin1_chars(&testClassName, "PoetClass", true);
-    GodotStringName parentClassName;
-    string_name_new_with_latin1_chars(&parentClassName, "RefCounted", true);
-
-    GDExtensionClassCreationInfo2 classInfo;
-    classInfo.is_exposed = true;
-    classInfo.create_instance_func = &createInstance;
-    classInfo.free_instance_func = &freeInstance;
-    classInfo.reference_func = &classReference;
-    classInfo.unreference_func = &classUnreference;
-
-    classdb_register_extension_class2(
-        p_library,
-        &testClassName,
-        &parentClassName,
-        &classInfo);
 
     return true;
 }
@@ -156,29 +159,4 @@ extern(C) void initialize(void* userdata, GDExtensionInitializationLevel p_level
 extern(C) void deinitialize(void* userdata, GDExtensionInitializationLevel p_level) nothrow
 {
     print("deinitialize", "level: %s", p_level);
-}
-
-extern(C) GDExtensionObjectPtr createInstance(void* p_class_userdata) nothrow
-{
-    print("createInstance");
-
-    GodotStringName className;
-    string_name_new_with_latin1_chars(&className, "RefCounted", true);
-    auto godotObject = classdb_construct_object(&className);
-    return godotObject;
-}
-
-extern(C) void freeInstance(void* p_class_userdata, GDExtensionClassInstancePtr p_instance) nothrow
-{
-    print("freeInstance");
-}
-
-extern(C) void classReference(GDExtensionClassInstancePtr p_instance) nothrow
-{
-    print("classReference", "p_instance: %s", p_instance);
-}
-
-extern(C) void classUnreference(GDExtensionClassInstancePtr p_instance) nothrow
-{
-    print("classUnreference", "p_instance: %s", p_instance);
 }
