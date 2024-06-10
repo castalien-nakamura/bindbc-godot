@@ -43,15 +43,22 @@ Godot entry point for the dynamic library.
 
 Params:
     entryPointName = The name of the extension entry point.
+    exportClasses = The classes to export to Godot.
 */
-mixin template GodotWrapperEntryPoint(string entryPointName)
+mixin template GodotWrapperEntryPoint(string entryPointName, exportClasses...)
 {
     private
     {
         import godot_wrapper.gdextension_interface : GDExtensionBool,
-            GDExtensionInterfaceGetProcAddress,
             GDExtensionClassLibraryPtr,
-            GDExtensionInitialization;
+            GDExtensionInitialization,
+            GDExtensionInterfaceGetProcAddress;
+        import godot_wrapper.binder : GDExtensionBindedClass;
+    }
+
+    static foreach (c; exportClasses)
+    {
+        static assert(is(c : GDExtensionBindedClass), "The export class must be a GDExtensionBindedClass.");
     }
 
     // Runtime initialization for Windows
@@ -85,7 +92,7 @@ mixin template GodotWrapperEntryPoint(string entryPointName)
         GDExtensionClassLibraryPtr p_library,
         GDExtensionInitialization* r_initialization)
     {
-        return godotGDExtensionEntryPointImpl(p_get_proc_address, p_library, r_initialization);
+        return godotGDExtensionEntryPointImpl!(exportClasses)(p_get_proc_address, p_library, r_initialization);
     }
 }
 
@@ -104,7 +111,7 @@ import godot_wrapper.binder : GodotBindedClassDB;
 
 version (GODOT_WRAPPER_TEST_EXTENSION)
 {
-    mixin GodotWrapperEntryPoint!"test_extension_entry_point";
+    mixin GodotWrapperEntryPoint!("test_extension_entry_point", PoetTest);
 }
 
 __gshared GDExtensionClassLibraryPtr godotClassLibraryPointer_;
@@ -120,7 +127,7 @@ Params:
 Returns:
     True if the extension was successfully initialized, false otherwise.
 */
-GDExtensionBool godotGDExtensionEntryPointImpl(
+GDExtensionBool godotGDExtensionEntryPointImpl(exportClasses...)(
     GDExtensionInterfaceGetProcAddress p_get_proc_address,
     GDExtensionClassLibraryPtr p_library,
     GDExtensionInitialization* r_initialization)
@@ -151,7 +158,11 @@ GDExtensionBool godotGDExtensionEntryPointImpl(
 
     initializeGDExtensionFunctions(p_get_proc_address);
     bindedClassDB_ = new GodotBindedClassDB();
-    bindedClassDB_.register!PoetTest();
+
+    static foreach (c; exportClasses)
+    {
+        bindedClassDB_.register!c();
+    }
 
     return true;
 }
