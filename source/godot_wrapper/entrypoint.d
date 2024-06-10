@@ -100,12 +100,15 @@ GDExtensionClassLibraryPtr getGodotClassLibraryPointer() @nogc nothrow
 
 private:
 
+import godot_wrapper.binder : GodotBindedClassDB;
+
 version (GODOT_WRAPPER_TEST_EXTENSION)
 {
     mixin GodotWrapperEntryPoint!"test_extension_entry_point";
 }
 
 __gshared GDExtensionClassLibraryPtr godotClassLibraryPointer_;
+__gshared GodotBindedClassDB bindedClassDB_;
 
 /**
 Godot entry point for the dynamic library.
@@ -147,6 +150,8 @@ GDExtensionBool godotGDExtensionEntryPointImpl(
     r_initialization.userdata = null;
 
     initializeGDExtensionFunctions(p_get_proc_address);
+    bindedClassDB_ = new GodotBindedClassDB();
+    bindedClassDB_.register!PoetTest();
 
     return true;
 }
@@ -159,4 +164,15 @@ extern(C) void initialize(void* userdata, GDExtensionInitializationLevel p_level
 extern(C) void deinitialize(void* userdata, GDExtensionInitializationLevel p_level) nothrow
 {
     print("deinitialize", "level: %s", p_level);
+}
+
+import godot_wrapper.binder : GDExtensionBaseClassName, GDExtensionBindedClass;
+
+@GDExtensionBaseClassName("RefCounted")
+class PoetTest : GDExtensionBindedClass
+{
+    override void onDestroy() nothrow
+    {
+        print("PoetTest", "onDestroy");
+    }
 }

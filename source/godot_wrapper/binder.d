@@ -1,13 +1,40 @@
 module godot_wrapper.binder;
 
 /** 
+Export name for a GDExtension class.
+*/
+struct GDExtensionExportName
+{
+    string name;
+}
+
+/** 
+base class name for a GDExtension class.
+*/
+struct GDExtensionBaseClassName
+{
+    string name;
+}
+
+/**
+GDExtension binded class interface.
+*/
+interface GDExtensionBindedClass
+{
+    /** 
+    Called when the object is freed.
+    */
+    void onDestroy() nothrow;
+}
+
+/** 
 Binded class database.
 */
 class GodotBindedClassDB
 {
     private
     {
-        import std.traits : Unqual;
+        import std.traits : getUDAs, getSymbolsByUDA, Unqual;
         import godot_wrapper.gdextension_interface : classdb_register_extension_class2,
             GDExtensionClassCreationInfo2,
             string_name_new_with_latin1_chars;
@@ -25,10 +52,37 @@ class GodotBindedClassDB
         constructor = The constructor of the class.
         destructor = The destructor of the class.
     */
-    void register(T)() nothrow scope if (is(T == class))
+    void register(T : GDExtensionBindedClass)() nothrow scope
     {
-        enum className = __traits(identifier, Unqual!T);
-        register!(className, "Object", T)(() => new T(), delegate (T instance) {});
+        enum exportNames = getUDAs!(T, GDExtensionExportName);
+        static if (exportNames.length == 0)
+        {
+            enum className = __traits(identifier, Unqual!T);
+        }
+        else static if (exportNames.length == 1)
+        {
+            enum className = exportNames[0].name;
+        }
+        else
+        {
+            static assert(false, "Only one Godot export name is allowed.");
+        }
+
+        enum baseClasseNames = getUDAs!(T, GDExtensionBaseClassName);
+        static if (baseClasseNames.length == 0)
+        {
+            enum baseClassName = "Object";
+        }
+        else static if (baseClasseNames.length == 1)
+        {
+            enum baseClassName = baseClasseNames[0].name;
+        }
+        else
+        {
+            static assert(false, "Only one Godot base class is allowed.");
+        }
+    
+        register!(className, baseClassName)(() => new T());
     }
 
     /**
@@ -39,24 +93,16 @@ class GodotBindedClassDB
         baseName = The name of the base class.
         T = The type of the class.
         constructor = The constructor of the class.
-        destructor = The destructor of the class.
     */
-    void register(string name, string baseName, T)(
-        T delegate() nothrow constructor,
-        void delegate(T) nothrow destructor) nothrow scope
-    if (is(T == class) || is(T == interface))
+    void register(string name, string baseName)(
+        GDExtensionBindedClass delegate() nothrow constructor) nothrow scope
     in (constructor)
-    in (destructor)
     in (name !in bindedClasses_)
     {
         auto className = getOrRegisterGodotName!name;
         auto baseClassName = getOrRegisterGodotName!baseName;
         auto classUserData = new BindedClassUserData(
-            this,
-            className,
-            baseClassName,
-            constructor,
-            (Object instance) { destructor(cast(T) instance); });
+            this, className, baseClassName, constructor);
         bindedClasses_[name] = classUserData;
 
         GDExtensionClassCreationInfo2 classInfo;
@@ -104,7 +150,7 @@ import godot_wrapper.gdextension_interface : classdb_construct_object,
 struct BindedClassInstanceUserData
 {
     GDObjectInstanceID instanceID;
-    Object object;
+    GDExtensionBindedClass object;
 }
 
 struct BindedClassUserData
@@ -112,8 +158,7 @@ struct BindedClassUserData
     GodotBindedClassDB db;
     GodotStringName className;
     GodotStringName baseClassName;
-    Object delegate() nothrow createObject;
-    void delegate(Object) nothrow freeObject;
+    GDExtensionBindedClass delegate() nothrow createObject;
 }
 
 extern(C) GDExtensionObjectPtr createInstance(
@@ -142,6 +187,6 @@ extern(C) void freeInstance(
 {
     auto classUserData = cast(BindedClassUserData*) p_class_userdata;
     auto instanceUserData = cast(BindedClassInstanceUserData*) p_instance;
-    classUserData.freeObject(instanceUserData.object);
+    instanceUserData.object.onDestroy();
     classUserData.db.bindedInstances_.remove(instanceUserData.instanceID);
 }
