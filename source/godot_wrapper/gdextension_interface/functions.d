@@ -1090,19 +1090,19 @@ enum GodotFunctionName;
 
 extern(C) nothrow @system
 {
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(GDExtensionGodotVersion* r_godot_version) @nogc _get_godot_version;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void* function(size_t p_bytes) @nogc _mem_alloc;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void* function(void* p_ptr, size_t p_bytes) @nogc _mem_realloc;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(void* p_ptr) @nogc _mem_free;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         const(char)* p_description,
         const(char)* p_function,
@@ -1110,7 +1110,7 @@ extern(C) nothrow @system
         int32_t p_line,
         GDExtensionBool p_editor_notify) @nogc _print_error;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         const(char)* p_description,
         const(char)* p_message,
@@ -1119,7 +1119,7 @@ extern(C) nothrow @system
         int32_t p_line,
         GDExtensionBool p_editor_notify) @nogc _print_error_with_message;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         const(char)* p_description,
         const(char)* p_function,
@@ -1127,7 +1127,7 @@ extern(C) nothrow @system
         int32_t p_line,
         GDExtensionBool p_editor_notify) @nogc _print_warning;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         const(char)* p_description,
         const(char)* p_message,
@@ -1136,7 +1136,7 @@ extern(C) nothrow @system
         int32_t p_line,
         GDExtensionBool p_editor_notify) @nogc _print_warning_with_message;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         const(char)* p_description,
         const(char)* p_function,
@@ -1144,7 +1144,7 @@ extern(C) nothrow @system
         int32_t p_line,
         GDExtensionBool p_editor_notify) @nogc _print_script_error;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         const(char)* p_description,
         const(char)* p_message,
@@ -1153,21 +1153,21 @@ extern(C) nothrow @system
         int32_t p_line,
         GDExtensionBool p_editor_notify) @nogc _print_script_error_with_message;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     uint64_t function(GDExtensionConstStringNamePtr p_name) @nogc _get_native_struct_size;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedVariantPtr r_dest,
         GDExtensionConstVariantPtr p_src)_variant_new_copy;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(GDExtensionUninitializedVariantPtr r_dest) @nogc _variant_new_nil;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(GDExtensionVariantPtr p_self) _variant_destroy;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantPtr p_self,
         GDExtensionConstStringNamePtr p_method,
@@ -1176,7 +1176,7 @@ extern(C) nothrow @system
         GDExtensionUninitializedVariantPtr r_return,
         GDExtensionCallError* r_error) _variant_call;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantType p_type,
         GDExtensionConstStringNamePtr p_method,
@@ -1185,7 +1185,7 @@ extern(C) nothrow @system
         GDExtensionUninitializedVariantPtr r_return,
         GDExtensionCallError* r_error) _variant_call_static;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantOperator p_op,
         GDExtensionConstVariantPtr p_a,
@@ -1193,28 +1193,28 @@ extern(C) nothrow @system
         GDExtensionUninitializedVariantPtr r_return,
         GDExtensionBool* r_valid) _variant_evaluate;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantPtr p_self,
         GDExtensionConstVariantPtr p_key,
         GDExtensionConstVariantPtr p_value,
         GDExtensionBool* r_valid) _variant_set;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantPtr p_self,
         GDExtensionConstStringNamePtr p_key,
         GDExtensionConstVariantPtr p_value,
         GDExtensionBool* r_valid) _variant_set_named;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantPtr p_self,
         GDExtensionConstVariantPtr p_key,
         GDExtensionConstVariantPtr p_value,
         GDExtensionBool* r_valid) _variant_set_keyed;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantPtr p_self,
         GDExtensionInt p_index,
@@ -1222,28 +1222,28 @@ extern(C) nothrow @system
         GDExtensionBool* r_valid,
         GDExtensionBool* r_oob) _variant_set_indexed;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionConstVariantPtr p_key,
         GDExtensionUninitializedVariantPtr r_ret,
         GDExtensionBool* r_valid) _variant_get;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionConstStringNamePtr p_key,
         GDExtensionUninitializedVariantPtr r_ret,
         GDExtensionBool* r_valid) _variant_get_named;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionConstVariantPtr p_key,
         GDExtensionUninitializedVariantPtr r_ret,
         GDExtensionBool* r_valid) _variant_get_keyed;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionInt p_index,
@@ -1251,113 +1251,113 @@ extern(C) nothrow @system
         GDExtensionBool* r_valid,
         GDExtensionBool* r_oob) _variant_get_indexed;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionUninitializedVariantPtr r_iter,
         GDExtensionBool* r_valid) _variant_iter_init;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionVariantPtr r_iter,
         GDExtensionBool* r_valid) _variant_iter_next;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionVariantPtr r_iter,
         GDExtensionUninitializedVariantPtr r_ret,
         GDExtensionBool* r_valid) _variant_iter_get;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionInt function(GDExtensionConstVariantPtr p_self) _variant_hash;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionInt function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionInt p_recursion_count) _variant_recursive_hash;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionConstVariantPtr p_other) _variant_hash_compare;
     
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(GDExtensionConstVariantPtr p_self) _variant_booleanize;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionVariantPtr r_ret,
         GDExtensionBool p_deep) _variant_duplicate;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(GDExtensionConstVariantPtr p_self, GDExtensionStringPtr r_ret) _variant_stringify;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionVariantType function(GDExtensionConstVariantPtr p_self) _variant_get_type;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionConstStringNamePtr p_method) _variant_has_method;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(
         GDExtensionVariantType p_type,
         GDExtensionConstStringNamePtr p_member) _variant_has_member;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(
         GDExtensionConstVariantPtr p_self,
         GDExtensionConstVariantPtr p_key,
         GDExtensionBool* r_valid) _variant_has_key;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantType p_type,
         GDExtensionUninitializedStringPtr r_name) _variant_get_type_name;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(
         GDExtensionVariantType p_from,
         GDExtensionVariantType p_to) _variant_can_convert;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(
         GDExtensionVariantType p_from,
         GDExtensionVariantType p_to) _variant_can_convert_strict;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionVariantFromTypeConstructorFunc function(
         GDExtensionVariantType p_type) _get_variant_from_type_constructor;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionTypeFromVariantConstructorFunc function(
         GDExtensionVariantType p_type) _get_variant_to_type_constructor;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrOperatorEvaluator function(
         GDExtensionVariantOperator p_operator,
         GDExtensionVariantType p_type_a,
         GDExtensionVariantType p_type_b) _variant_get_ptr_operator_evaluator;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrBuiltInMethod function(
         GDExtensionVariantType p_type,
         GDExtensionConstStringNamePtr p_method,
         GDExtensionInt p_hash) _variant_get_ptr_builtin_method;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrConstructor function(
         GDExtensionVariantType p_type,
         int32_t p_constructor) _variant_get_ptr_constructor;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrDestructor function(GDExtensionVariantType p_type) _variant_get_ptr_destructor;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantType p_type,
         GDExtensionUninitializedVariantPtr r_base,
@@ -1365,208 +1365,208 @@ extern(C) nothrow @system
         int32_t p_argument_count,
         GDExtensionCallError* r_error) _variant_construct;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrSetter function(
         GDExtensionVariantType p_type,
         GDExtensionConstStringNamePtr p_member) _variant_get_ptr_setter;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrGetter function(
         GDExtensionVariantType p_type,
         GDExtensionConstStringNamePtr p_member) _variant_get_ptr_getter;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrIndexedSetter function(
         GDExtensionVariantType p_type) _variant_get_ptr_indexed_setter;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrIndexedGetter function(
         GDExtensionVariantType p_type) _variant_get_ptr_indexed_getter;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrKeyedSetter function(
         GDExtensionVariantType p_type) _variant_get_ptr_keyed_setter;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrKeyedGetter function(
         GDExtensionVariantType p_type) _variant_get_ptr_keyed_getter;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrKeyedChecker function(
         GDExtensionVariantType p_type) _variant_get_ptr_keyed_checker;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionVariantType p_type,
         GDExtensionConstStringNamePtr p_constant,
         GDExtensionUninitializedVariantPtr r_ret) _variant_get_constant_value;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionPtrUtilityFunction function(
         GDExtensionConstStringNamePtr p_function,
         GDExtensionInt p_hash) _variant_get_ptr_utility_function;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char)* p_contents) @nogc _string_new_with_latin1_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char)* p_contents) @nogc _string_new_with_utf8_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char16_t)* p_contents) @nogc _string_new_with_utf16_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char32_t)* p_contents) @nogc _string_new_with_utf32_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(wchar_t)* p_contents) @nogc _string_new_with_wide_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char)* p_contents,
         GDExtensionInt p_size) @nogc _string_new_with_latin1_chars_and_len;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char)* p_contents,
         GDExtensionInt p_size) @nogc _string_new_with_utf8_chars_and_len;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char16_t)* p_contents,
         GDExtensionInt p_char_count) @nogc _string_new_with_utf16_chars_and_len;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(char32_t)* p_contents,
         GDExtensionInt p_char_count) @nogc _string_new_with_utf32_chars_and_len;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringPtr r_dest,
         const(wchar_t)* p_contents,
         GDExtensionInt p_char_count) @nogc _string_new_with_wide_chars_and_len;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         char* r_text,
         GDExtensionInt p_max_write_length) @nogc _string_to_latin1_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         char* r_text,
         GDExtensionInt p_max_write_length) @nogc _string_to_utf8_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         char16_t* r_text,
         GDExtensionInt p_max_write_length) @nogc _string_to_utf16_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         char32_t* r_text,
         GDExtensionInt p_max_write_length) @nogc _string_to_utf32_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionInt function(
         GDExtensionConstStringPtr p_self,
         wchar_t* r_text,
         GDExtensionInt p_max_write_length) @nogc _string_to_wide_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     char32_t* function(
         GDExtensionStringPtr p_self,
         GDExtensionInt p_index) @nogc _string_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     const(char32_t)* function(
         GDExtensionConstStringPtr p_self,
         GDExtensionInt p_index) @nogc _string_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionStringPtr p_self,
         GDExtensionConstStringPtr p_b) @nogc _string_operator_plus_eq_string;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionStringPtr p_self,
         char32_t p_b) @nogc _string_operator_plus_eq_char;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionStringPtr p_self,
         const(char)* p_b) @nogc _string_operator_plus_eq_cstr;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionStringPtr p_self,
         const(wchar_t)* p_b) @nogc _string_operator_plus_eq_wcstr;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionStringPtr p_self,
         const(char32_t)* p_b) @nogc _string_operator_plus_eq_c32str;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionInt function(
         GDExtensionStringPtr p_self,
         GDExtensionInt p_resize) @nogc _string_resize;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringNamePtr r_dest,
         const(char)* p_contents,
         GDExtensionBool p_is_static) @nogc _string_name_new_with_latin1_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringNamePtr r_dest,
         const(char)* p_contents) @nogc _string_name_new_with_utf8_chars;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedStringNamePtr r_dest,
         const(char)* p_contents,
         GDExtensionInt p_size) @nogc _string_name_new_with_utf8_chars_and_len;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionInt function(
         GDExtensionObjectPtr p_instance,
         const(uint8_t)* p_buffer,
         size_t p_size) @nogc _xml_parser_open_buffer;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionObjectPtr p_instance,
         const(uint8_t)* p_src,
         uint64_t p_length) @nogc _file_access_store_buffer;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     uint64_t function(
         GDExtensionConstObjectPtr p_instance,
         uint8_t* p_dst,
         uint64_t p_length) @nogc _file_access_get_buffer;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     int64_t function(
         GDExtensionObjectPtr p_instance,
         GDGroupTaskFunction p_func,
@@ -1576,7 +1576,7 @@ extern(C) nothrow @system
         GDExtensionBool p_high_priority,
         GDExtensionConstStringPtr p_description) @nogc _worker_thread_pool_add_native_group_task;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     int64_t function(
         GDExtensionObjectPtr p_instance,
         GDTaskFunction p_func,
@@ -1584,129 +1584,129 @@ extern(C) nothrow @system
         GDExtensionBool p_high_priority,
         GDExtensionConstStringPtr p_description) @nogc _worker_thread_pool_add_native_task;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     uint8_t* function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_byte_array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     const(uint8_t)* function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_byte_array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionTypePtr function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_color_array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionTypePtr function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_color_array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     float* function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_float32_array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     const(float)* function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_float32_array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     double* function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_float64_array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     const(double)* function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index)@nogc  _packed_float64_array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     int32_t* function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_int32_array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     const(int32_t)* function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_int32_array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     int64_t* function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_int64_array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     const(int64_t)* function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_int64_array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionStringPtr function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_string_array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionStringPtr function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_string_array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionTypePtr function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_vector2_array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionTypePtr function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_vector2_array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionTypePtr function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_vector3_array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionTypePtr function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index) @nogc _packed_vector3_array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionVariantPtr function(
         GDExtensionTypePtr p_self,
         GDExtensionInt p_index) _array_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionVariantPtr function(
         GDExtensionConstTypePtr p_self,
         GDExtensionInt p_index) _array_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionTypePtr p_self,
         GDExtensionConstTypePtr p_from) _array_ref;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionTypePtr p_self,
         GDExtensionVariantType p_type,
         GDExtensionConstStringNamePtr p_class_name,
         GDExtensionConstVariantPtr p_script) _array_set_typed;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionVariantPtr function(
         GDExtensionTypePtr p_self,
         GDExtensionConstVariantPtr p_key) _dictionary_operator_index;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionVariantPtr function(
         GDExtensionConstTypePtr p_self,
         GDExtensionConstVariantPtr p_key) _dictionary_operator_index_const;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionMethodBindPtr p_method_bind,
         GDExtensionObjectPtr p_instance,
@@ -1715,123 +1715,123 @@ extern(C) nothrow @system
         GDExtensionUninitializedVariantPtr r_ret,
         GDExtensionCallError* r_error) _object_method_bind_call;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionMethodBindPtr p_method_bind,
         GDExtensionObjectPtr p_instance,
         const(GDExtensionConstTypePtr)* p_args,
         GDExtensionTypePtr r_ret) _object_method_bind_ptrcall;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(GDExtensionObjectPtr p_o) _object_destroy;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionObjectPtr function(GDExtensionConstStringNamePtr p_name) _global_get_singleton;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void* function(
         GDExtensionObjectPtr p_o,
         void* p_token,
         const(GDExtensionInstanceBindingCallbacks)* p_callbacks) _object_get_instance_binding;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionObjectPtr p_o,
         void* p_token,
         void* p_binding,
         const(GDExtensionInstanceBindingCallbacks)* p_callbacks) _object_set_instance_binding;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(GDExtensionObjectPtr p_o, void* p_token) _object_free_instance_binding;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionObjectPtr p_o,
         GDExtensionConstStringNamePtr p_classname,
         GDExtensionClassInstancePtr p_instance) _object_set_instance;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionBool function(
         GDExtensionConstObjectPtr p_object,
         GDExtensionClassLibraryPtr p_library,
         GDExtensionUninitializedStringNamePtr r_class_name) _object_get_class_name;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionObjectPtr function(
         GDExtensionConstObjectPtr p_object,
         void* p_class_tag) _object_cast_to;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionObjectPtr function(GDObjectInstanceID p_instance_id) _object_get_instance_from_id;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDObjectInstanceID function(GDExtensionConstObjectPtr p_object) _object_get_instance_id;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionObjectPtr function(GDExtensionConstRefPtr p_ref) _ref_get_object;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(GDExtensionRefPtr p_ref, GDExtensionObjectPtr p_object) _ref_set_object;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionScriptInstancePtr function(
         const(GDExtensionScriptInstanceInfo2)* p_info,
         GDExtensionScriptInstanceDataPtr p_instance_data) _script_instance_create2;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionScriptInstancePtr function(
         GDExtensionObjectPtr p_language,
         GDExtensionObjectPtr p_script,
         GDExtensionObjectPtr p_owner) _placeholder_script_instance_create;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionScriptInstancePtr p_placeholder,
         GDExtensionConstTypePtr p_properties,
         GDExtensionConstTypePtr p_values) _placeholder_script_instance_update;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionScriptInstanceDataPtr function(
         GDExtensionConstObjectPtr p_object,
         GDExtensionObjectPtr p_language) _object_get_script_instance;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionUninitializedTypePtr r_callable,
         GDExtensionCallableCustomInfo* p_callable_custom_info) _callable_custom_create;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void* function(
         GDExtensionConstTypePtr p_callable,
         void* p_token) _callable_custom_get_userdata;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionObjectPtr function(
         GDExtensionConstStringNamePtr p_classname) _classdb_construct_object;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     GDExtensionMethodBindPtr function(
         GDExtensionConstStringNamePtr p_classname,
         GDExtensionConstStringNamePtr p_methodname,
         GDExtensionInt p_hash) _classdb_get_method_bind;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void* function(GDExtensionConstStringNamePtr p_classname) _classdb_get_class_tag;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionConstStringNamePtr p_class_name,
         GDExtensionConstStringNamePtr p_parent_class_name,
         const(GDExtensionClassCreationInfo2)* p_extension_funcs) _classdb_register_extension_class2;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionConstStringNamePtr p_class_name,
         const(GDExtensionClassMethodInfo)* p_method_info) _classdb_register_extension_class_method;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionConstStringNamePtr p_class_name,
@@ -1840,7 +1840,7 @@ extern(C) nothrow @system
         GDExtensionInt p_constant_value,
         GDExtensionBool p_is_bitfield) _classdb_register_extension_class_integer_constant;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionConstStringNamePtr p_class_name,
@@ -1848,7 +1848,7 @@ extern(C) nothrow @system
         GDExtensionConstStringNamePtr p_setter,
         GDExtensionConstStringNamePtr p_getter) _classdb_register_extension_class_property;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionConstStringNamePtr p_class_name,
@@ -1857,21 +1857,21 @@ extern(C) nothrow @system
         GDExtensionConstStringNamePtr p_getter,
         GDExtensionInt p_index) _classdb_register_extension_class_property_indexed;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionConstStringNamePtr p_class_name,
         GDExtensionConstStringPtr p_group_name,
         GDExtensionConstStringPtr p_prefix) _classdb_register_extension_class_property_group;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionConstStringNamePtr p_class_name,
         GDExtensionConstStringPtr p_subgroup_name,
         GDExtensionConstStringPtr p_prefix) _classdb_register_extension_class_property_subgroup;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionConstStringNamePtr p_class_name,
@@ -1879,19 +1879,19 @@ extern(C) nothrow @system
         const(GDExtensionPropertyInfo)* p_argument_info,
         GDExtensionInt p_argument_count) _classdb_register_extension_class_signal;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionConstStringNamePtr p_class_name) _classdb_unregister_extension_class;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(
         GDExtensionClassLibraryPtr p_library,
         GDExtensionUninitializedStringPtr r_path) @nogc _get_library_path;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(GDExtensionConstStringNamePtr p_class_name) _editor_add_plugin;
 
-    @(GodotFunctionName)
+    @GodotFunctionName
     void function(GDExtensionConstStringNamePtr p_class_name) _editor_remove_plugin;
 }
