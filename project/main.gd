@@ -6,3 +6,4 @@ var poet: PoetTest = null
 func _ready():
 	self.poet = PoetTest.new()
 	print(self.poet.get_reference_count())
+	self.poet.test_method()

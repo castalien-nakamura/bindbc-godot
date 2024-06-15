@@ -35,8 +35,13 @@ class GodotBindedClassDB
     private
     {
         import std.traits : getUDAs, getSymbolsByUDA, Unqual;
-        import godot_wrapper.gdextension_interface : classdb_register_extension_class2,
+        import godot_wrapper.gdextension_interface : classdb_register_extension_class_method,
+            classdb_register_extension_class2,
             GDExtensionClassCreationInfo2,
+            GDExtensionClassMethodInfo,
+            GDEXTENSION_METHOD_FLAGS_DEFAULT,
+            GDEXTENSION_METHOD_FLAG_EDITOR,
+            GDEXTENSION_METHOD_FLAG_CONST,
             string_name_new_with_latin1_chars;
         import godot_wrapper.builtins : GodotStringName;
         import godot_wrapper.entrypoint : getGodotClassLibraryPointer;
@@ -116,6 +121,18 @@ class GodotBindedClassDB
             &className,
             &baseClassName,
             &classInfo);
+
+        GDExtensionClassMethodInfo methodInfo;
+        auto methodName = getOrRegisterGodotName!"test_method";
+        methodInfo.name = &methodName;
+        methodInfo.method_flags = GDEXTENSION_METHOD_FLAGS_DEFAULT
+            | GDEXTENSION_METHOD_FLAG_CONST;
+        methodInfo.call_func = &callMethod;
+        methodInfo.ptrcall_func = &callPointerMethod;
+        classdb_register_extension_class_method(
+            getGodotClassLibraryPointer(),
+            &className,
+            &methodInfo);
     }
 
 private:
@@ -143,8 +160,14 @@ import godot_wrapper.builtins : GodotStringName;
 import godot_wrapper.gdextension_interface : classdb_construct_object,
     object_get_instance_id,
     object_set_instance,
+    GDExtensionCallError,
     GDExtensionClassInstancePtr,
+    GDExtensionConstTypePtr,
+    GDExtensionConstVariantPtr,
+    GDExtensionInt,
     GDExtensionObjectPtr,
+    GDExtensionTypePtr,
+    GDExtensionVariantPtr,
     GDObjectInstanceID;
 
 struct BindedClassInstanceUserData
@@ -189,4 +212,26 @@ extern(C) void freeInstance(
     auto instanceUserData = cast(BindedClassInstanceUserData*) p_instance;
     instanceUserData.object.onDestroy();
     classUserData.db.bindedInstances_.remove(instanceUserData.instanceID);
+}
+
+extern(C) void callMethod(
+    void* method_userdata,
+    GDExtensionClassInstancePtr p_instance,
+    const(GDExtensionConstVariantPtr)* p_args,
+    GDExtensionInt p_argument_count,
+    GDExtensionVariantPtr r_return,
+    GDExtensionCallError* r_error) nothrow
+{
+    import godot_wrapper.print : print;
+    print("callMethod", "callMethod");
+}
+
+extern(C) void callPointerMethod(
+    void* method_userdata,
+    GDExtensionClassInstancePtr p_instance,
+    const(GDExtensionConstTypePtr)* p_args,
+    GDExtensionTypePtr r_ret) nothrow
+{
+    import godot_wrapper.print : print;
+    print("callPointerMethod", "callPointerMethod");
 }
