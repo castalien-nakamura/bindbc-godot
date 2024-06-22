@@ -37,11 +37,15 @@ class GodotBindedClassDB
         import std.traits : getUDAs, getSymbolsByUDA, Unqual;
         import godot_wrapper.gdextension_interface : classdb_register_extension_class_method,
             classdb_register_extension_class2,
+            GDExtensionClassMethodArgumentMetadata,
             GDExtensionClassCreationInfo2,
             GDExtensionClassMethodInfo,
+            GDExtensionPropertyInfo,
+            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT64,
             GDEXTENSION_METHOD_FLAGS_DEFAULT,
             GDEXTENSION_METHOD_FLAG_EDITOR,
             GDEXTENSION_METHOD_FLAG_CONST,
+            GDEXTENSION_VARIANT_TYPE_INT,
             string_name_new_with_latin1_chars;
         import godot_wrapper.builtins : GodotStringName;
         import godot_wrapper.entrypoint : getGodotClassLibraryPointer;
@@ -129,6 +133,48 @@ class GodotBindedClassDB
             | GDEXTENSION_METHOD_FLAG_CONST;
         methodInfo.call_func = &callMethod;
         methodInfo.ptrcall_func = &callPointerMethod;
+
+        GDExtensionPropertyInfo returnValueInfo;
+        auto returnValueName = getOrRegisterGodotName!"int";
+        returnValueInfo.type = GDEXTENSION_VARIANT_TYPE_INT;
+        returnValueInfo.class_name = &returnValueName;
+        returnValueInfo.name = &returnValueName;
+        returnValueInfo.hint = 0;
+        returnValueInfo.hint_string = &returnValueName;
+        returnValueInfo.usage = 0b100;
+
+        methodInfo.has_return_value = true;
+        methodInfo.return_value_info = &returnValueInfo;
+        methodInfo.return_value_metadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT64;
+
+        GDExtensionPropertyInfo argumentInfo1;
+        auto argumentClassName = getOrRegisterGodotName!"int";
+        argumentInfo1.type = GDEXTENSION_VARIANT_TYPE_INT;
+        argumentInfo1.class_name = &argumentClassName;
+        auto argumentName1 = getOrRegisterGodotName!"x";
+        argumentInfo1.name = &argumentName1;
+        argumentInfo1.hint = 0;
+        argumentInfo1.hint_string = &className;
+        argumentInfo1.usage = 0b100;
+
+        GDExtensionPropertyInfo argumentInfo2;
+        argumentInfo2.type = GDEXTENSION_VARIANT_TYPE_INT;
+        argumentInfo2.class_name = &argumentClassName;
+        auto argumentName2 = getOrRegisterGodotName!"y";
+        argumentInfo2.name = &argumentName2;
+        argumentInfo2.hint = 0;
+        argumentInfo2.hint_string = &className;
+        argumentInfo2.usage = 0b100;
+
+        GDExtensionPropertyInfo[] argumentInfos = [argumentInfo1, argumentInfo2];
+        GDExtensionClassMethodArgumentMetadata[] argumentMetadata = [
+            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT64,
+            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT64,
+        ];
+        methodInfo.argument_count = 2;
+        methodInfo.arguments_info = &argumentInfos[0];
+        methodInfo.arguments_metadata = &argumentMetadata[0];
+
         classdb_register_extension_class_method(
             getGodotClassLibraryPointer(),
             &className,
@@ -232,6 +278,11 @@ extern(C) void callPointerMethod(
     const(GDExtensionConstTypePtr)* p_args,
     GDExtensionTypePtr r_ret) nothrow
 {
+    auto args = cast(const(int)**) p_args;
     import godot_wrapper.print : print;
-    print("callPointerMethod", "callPointerMethod");
+    print("callPointerMethod", "callPointerMethod: %s, %s, %s, %s, %d, %d",
+        method_userdata, p_instance, args, r_ret, *args[0], *args[1]);
+
+    auto result = cast(int*) r_ret;
+    *result = *args[0] * 2;
 }
