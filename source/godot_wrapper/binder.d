@@ -1,33 +1,6 @@
 module godot_wrapper.binder;
 
 /** 
-Export name for a GDExtension class.
-*/
-struct GDExtensionExportName
-{
-    string name;
-}
-
-/** 
-base class name for a GDExtension class.
-*/
-struct GDExtensionBaseClassName
-{
-    string name;
-}
-
-/**
-GDExtension binded class interface.
-*/
-interface GDExtensionBindedClass
-{
-    /** 
-    Called when the object is freed.
-    */
-    void onDestroy() nothrow;
-}
-
-/** 
 Binded class database.
 */
 class GodotBindedClassDB
@@ -47,6 +20,7 @@ class GodotBindedClassDB
             GDEXTENSION_METHOD_FLAG_CONST,
             GDEXTENSION_VARIANT_TYPE_INT,
             string_name_new_with_latin1_chars;
+        import godot_wrapper.binded_class : GetGDExtensionBaseClassName, GetGDExtensionExportName;
         import godot_wrapper.builtins : GodotStringName;
         import godot_wrapper.entrypoint : getGodotClassLibraryPointer;
     }
@@ -63,34 +37,8 @@ class GodotBindedClassDB
     */
     void register(T : GDExtensionBindedClass)() nothrow scope
     {
-        enum exportNames = getUDAs!(T, GDExtensionExportName);
-        static if (exportNames.length == 0)
-        {
-            enum className = __traits(identifier, Unqual!T);
-        }
-        else static if (exportNames.length == 1)
-        {
-            enum className = exportNames[0].name;
-        }
-        else
-        {
-            static assert(false, "Only one Godot export name is allowed.");
-        }
-
-        enum baseClasseNames = getUDAs!(T, GDExtensionBaseClassName);
-        static if (baseClasseNames.length == 0)
-        {
-            enum baseClassName = "Object";
-        }
-        else static if (baseClasseNames.length == 1)
-        {
-            enum baseClassName = baseClasseNames[0].name;
-        }
-        else
-        {
-            static assert(false, "Only one Godot base class is allowed.");
-        }
-    
+        enum className = GetGDExtensionExportName!T;
+        enum baseClassName = GetGDExtensionBaseClassName!T;
         register!(className, baseClassName)(() => new T());
     }
 
@@ -203,6 +151,7 @@ private:
 private:
 
 import godot_wrapper.builtins : GodotStringName;
+import godot_wrapper.binded_class : GDExtensionBindedClass;
 import godot_wrapper.gdextension_interface : classdb_construct_object,
     object_get_instance_id,
     object_set_instance,
@@ -228,6 +177,39 @@ struct BindedClassUserData
     GodotStringName className;
     GodotStringName baseClassName;
     GDExtensionBindedClass delegate() nothrow createObject;
+}
+
+/** 
+GDExtension binded class method interface.
+*/
+interface GDextensionBindedClassMethod
+{
+    /** 
+    Called when the method is called.
+    */
+    void call(
+        GDExtensionBindedClass instance,
+        const(GDExtensionConstTypePtr)* p_args,
+        GDExtensionTypePtr r_ret) nothrow;
+}
+
+/** 
+GDExtension binded class method implementation.
+
+Params:
+    T = The type of the method.
+    methodName = The name of the method.
+*/
+class GDextensionBindedClassMethodImpl(T : GDExtensionBindedClass, string methodName) : GDextensionBindedClassMethod
+{
+    override void call(
+        GDExtensionBindedClass instance,
+        const(GDExtensionConstTypePtr)* p_args,
+        GDExtensionTypePtr r_ret) nothrow
+    {
+        auto typedInstance = cast(T) instance;
+        assert(typedInstance, "Invalid instance type.");
+    }
 }
 
 extern(C) GDExtensionObjectPtr createInstance(

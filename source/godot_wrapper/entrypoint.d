@@ -177,7 +177,7 @@ extern(C) void deinitialize(void* userdata, GDExtensionInitializationLevel p_lev
     print("deinitialize", "level: %s", p_level);
 }
 
-import godot_wrapper.binder : GDExtensionBaseClassName, GDExtensionBindedClass;
+import godot_wrapper.binded_class : GDExtensionBaseClassName, GDExtensionBindedClass;
 
 @GDExtensionBaseClassName("RefCounted")
 class PoetTest : GDExtensionBindedClass
