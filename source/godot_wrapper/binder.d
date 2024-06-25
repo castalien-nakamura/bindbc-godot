@@ -211,10 +211,6 @@ import godot_wrapper.gdextension_interface : classdb_construct_object,
     GDExtensionVariantPtr,
     GDObjectInstanceID;
 
-void registerMethods(T : GDExtensionBindedClass)()
-{
-}
-
 template GetGodotMethodArgumentMetadata(T)
 {
     private
@@ -233,43 +229,53 @@ template GetGodotMethodArgumentMetadata(T)
             GDEXTENSION_METHOD_ARGUMENT_METADATA_REAL_IS_DOUBLE;
     }
 
-    static if (is(T == byte))
+    // unwrap pointer type.
+    static if (is(T U == U*))
+    {
+        alias V = U;
+    }
+    else
+    {
+        alias V = T;
+    }
+
+    static if (is(V == byte))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT8;
     }
-    else static if (is(T == short))
+    else static if (is(V == short))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT62;
     }
-    else static if (is(T == int))
+    else static if (is(V == int))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT32;
     }
-    else static if (is(T == long))
+    else static if (is(V == long))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT64;
     }
-    else static if (is(T == ubyte))
+    else static if (is(V == ubyte))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT8;
     }
-    else static if (is(T == ushort))
+    else static if (is(V == ushort))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT62;
     }
-    else static if (is(T == uint))
+    else static if (is(V == uint))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT32;
     }
-    else static if (is(T == ulong))
+    else static if (is(V == ulong))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT64;
     }
-    else static if (is(T == float))
+    else static if (is(V == float))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_REAL_IS_FLOAT;
     }
-    else static if (is(T == double))
+    else static if (is(V == double))
     {
         enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_REAL_IS_DOUBLE;
     }
