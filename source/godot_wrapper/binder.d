@@ -83,8 +83,12 @@ class GodotBindedClassDB
             // set method name
             enum methodExports = getUDAs!(method, GDExtensionExportMethod);
             static assert(methodExports.length == 1, "Only one Godot export method is allowed.");
+
             enum methodName = __traits(identifier, method);
             enum methodExportName = methodExports[0].name == "" ? methodName : methodExports[0].name;
+            enum methodID = gdextensionExportName ~ "." ~ methodExportName;
+            assert(methodID !in bindedClassMethods_, "Method " ~ methodID ~ " already registered.");
+
             auto godotMethodName = getOrRegisterGodotName!methodExportName;
             methodInfo.name = &godotMethodName;
 
@@ -102,9 +106,6 @@ class GodotBindedClassDB
             {
                 methodInfo.method_flags |= GDEXTENSION_METHOD_FLAG_CONST;
             }
-
-            methodInfo.call_func = &callMethod;
-            methodInfo.ptrcall_func = &callPointerMethod;
 
             alias R = Unqual!(ReturnType!method);
             auto returnValueName = getOrRegisterGodotName!(R.stringof);
@@ -133,8 +134,9 @@ class GodotBindedClassDB
             auto argumentInfos = appender!(GDExtensionPropertyInfo[])();
             auto argumentMetadata = appender!(GDExtensionClassMethodArgumentMetadata[])();
 
+            alias methodParameters = Parameters!method;
             enum parameterNames = ParameterIdentifierTuple!method;
-            foreach (j, parameter; Parameters!method)
+            foreach (j, parameter; methodParameters)
             {
                 alias P = Unqual!parameter;
                 argumentTypeNames.put(getOrRegisterGodotName!(P.stringof));
@@ -161,10 +163,21 @@ class GodotBindedClassDB
                 methodInfo.arguments_metadata = &argumentMetadata[][0];
             }
 
+            // create the method user data
+            auto methodUserData = new BindedClassMethodUserData(
+                this, new GDextensionBindedClassMethodImpl!(T, methodName, R, methodParameters));
+
+            methodInfo.method_userdata = methodUserData;
+            methodInfo.call_func = &callMethod;
+            methodInfo.ptrcall_func = &callPointerMethod;
+
             classdb_register_extension_class_method(
                 getGodotClassLibraryPointer(),
                 &className,
                 &methodInfo);
+            
+            // store the method user data
+            bindedClassMethods_[methodID] = methodUserData;
         }
     }
 
@@ -172,6 +185,7 @@ private:
     GodotStringName[string] namePool_;
     BindedClassUserData*[string] bindedClasses_;
     BindedClassInstanceUserData*[GDObjectInstanceID] bindedInstances_;
+    BindedClassMethodUserData*[string] bindedClassMethods_;
 
     /** 
     Get or register a Godot name.
@@ -197,7 +211,12 @@ private:
 
 private:
 
-import godot_wrapper.builtins : GodotStringName;
+import std.traits : ReturnType;
+import std.typecons : Tuple;
+import godot_wrapper.builtins : GodotBool,
+    GodotFloat,
+    GodotInt,
+    GodotStringName;
 import godot_wrapper.binded_class : GDExtensionBindedClass, GDExtensionExportMethod;
 import godot_wrapper.gdextension_interface : classdb_construct_object,
     object_get_instance_id,
@@ -226,6 +245,12 @@ struct BindedClassUserData
     GDExtensionBindedClass delegate() nothrow createObject;
 }
 
+struct BindedClassMethodUserData
+{
+    GodotBindedClassDB db;
+    GDextensionBindedClassMethod method;
+}
+
 /** 
 GDExtension binded class method interface.
 */
@@ -246,8 +271,11 @@ GDExtension binded class method implementation.
 Params:
     T = The type of the method.
     methodName = The name of the method.
+    R = The return type of the method.
+    Params = The parameters of the method.
 */
-class GDextensionBindedClassMethodImpl(T : GDExtensionBindedClass, string methodName) : GDextensionBindedClassMethod
+class GDextensionBindedClassMethodImpl(T : GDExtensionBindedClass, string methodName, R, Params...)
+    : GDextensionBindedClassMethod
 {
     override void call(
         GDExtensionBindedClass instance,
@@ -256,7 +284,43 @@ class GDextensionBindedClassMethodImpl(T : GDExtensionBindedClass, string method
     {
         auto typedInstance = cast(T) instance;
         assert(typedInstance, "Invalid instance type.");
+
+        Tuple!Params args;
+        static foreach (i, param; Params)
+        {
+            args[i] = fromGodotArgument!param(p_args[i]);
+        }
+
+        static if(is(R == void))
+        {
+            __traits(getMember, typedInstance, methodName)(args.expand);
+        }
+        else
+        {
+            writeGodotResult(__traits(getMember, typedInstance, methodName)(args.expand), r_ret);
+        }
     }
+}
+
+T fromGodotArgument(T)(GDExtensionConstTypePtr p) nothrow @nogc pure
+{
+    static if (is(T == GodotBool) || is(T == GodotInt) || is(T == GodotFloat))
+    {
+        return *(cast(const(T)*) p);
+    }
+    else static if (is(T U == U*))
+    {
+        return cast(T) p;
+    }
+    else
+    {
+        static assert(false, "Unsupported Godot value type.");
+    }
+}
+
+void writeGodotResult(T)(T value, GDExtensionTypePtr dest) nothrow
+{
+    *(cast(T*) dest) = value;
 }
 
 extern(C) GDExtensionObjectPtr createInstance(
@@ -307,11 +371,7 @@ extern(C) void callPointerMethod(
     const(GDExtensionConstTypePtr)* p_args,
     GDExtensionTypePtr r_ret) nothrow
 {
-    auto args = cast(const(int)**) p_args;
-    import godot_wrapper.print : print;
-    print("callPointerMethod", "callPointerMethod: %s, %s, %s, %s, %d, %d",
-        method_userdata, p_instance, args, r_ret, *args[0], *args[1]);
-
-    auto result = cast(int*) r_ret;
-    *result = *args[0] * 2;
+    auto methodUserData = cast(BindedClassMethodUserData*) method_userdata;
+    auto instance = cast(BindedClassInstanceUserData*) p_instance;
+    methodUserData.method.call(instance.object, p_args, r_ret);
 }
