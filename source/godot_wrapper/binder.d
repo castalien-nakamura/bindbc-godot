@@ -26,6 +26,7 @@ class GodotBindedClassDB
             GDExtensionClassCreationInfo2,
             GDExtensionClassMethodInfo,
             GDExtensionPropertyInfo,
+            GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE,
             GDEXTENSION_METHOD_FLAGS_DEFAULT,
             GDEXTENSION_METHOD_FLAG_CONST,
             GDEXTENSION_METHOD_FLAG_STATIC,
@@ -124,7 +125,7 @@ class GodotBindedClassDB
 
                 methodInfo.has_return_value = true;
                 methodInfo.return_value_info = &returnValueInfo;
-                methodInfo.return_value_metadata = GetGodotMethodArgumentMetadata!R;
+                methodInfo.return_value_metadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;
             }
 
             auto argumentNames = appender!(GodotStringName[])();
@@ -150,7 +151,7 @@ class GodotBindedClassDB
                 argumentInfo.hint_string = argumentName;
                 argumentInfo.usage = 0b110; // PROPERTY_USAGE_DEFAULT
                 argumentInfos.put(argumentInfo);
-                argumentMetadata.put(GetGodotMethodArgumentMetadata!P);
+                argumentMetadata.put(GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE);
             }
 
             methodInfo.argument_count = cast(uint32_t) argumentInfos[].length;
@@ -210,80 +211,6 @@ import godot_wrapper.gdextension_interface : classdb_construct_object,
     GDExtensionTypePtr,
     GDExtensionVariantPtr,
     GDObjectInstanceID;
-
-template GetGodotMethodArgumentMetadata(T)
-{
-    private
-    {
-        import godot_wrapper.gdextension_interface : GDExtensionClassMethodArgumentMetadata,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT8,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT16,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT32,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT64,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT8,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT16,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT32,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT64,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_REAL_IS_FLOAT,
-            GDEXTENSION_METHOD_ARGUMENT_METADATA_REAL_IS_DOUBLE;
-    }
-
-    // unwrap pointer type.
-    static if (is(T U == U*))
-    {
-        alias V = U;
-    }
-    else
-    {
-        alias V = T;
-    }
-
-    static if (is(V == byte))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT8;
-    }
-    else static if (is(V == short))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT62;
-    }
-    else static if (is(V == int))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT32;
-    }
-    else static if (is(V == long))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT64;
-    }
-    else static if (is(V == ubyte))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT8;
-    }
-    else static if (is(V == ushort))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT62;
-    }
-    else static if (is(V == uint))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT32;
-    }
-    else static if (is(V == ulong))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_UINT64;
-    }
-    else static if (is(V == float))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_REAL_IS_FLOAT;
-    }
-    else static if (is(V == double))
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_REAL_IS_DOUBLE;
-    }
-    else
-    {
-        enum GetGodotMethodArgumentMetadata = GDEXTENSION_METHOD_ARGUMENT_METADATA_NONE;
-    }
-}
 
 struct BindedClassInstanceUserData
 {
