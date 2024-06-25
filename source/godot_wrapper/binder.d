@@ -127,7 +127,8 @@ class GodotBindedClassDB
                 methodInfo.return_value_metadata = GetGodotMethodArgumentMetadata!R;
             }
 
-            auto artumentNames = appender!(GodotStringName[])();
+            auto argumentNames = appender!(GodotStringName[])();
+            auto argumentTypeNames = appender!(GodotStringName[])();
             auto argumentInfos = appender!(GDExtensionPropertyInfo[])();
             auto argumentMetadata = appender!(GDExtensionClassMethodArgumentMetadata[])();
 
@@ -135,14 +136,18 @@ class GodotBindedClassDB
             foreach (j, parameter; Parameters!method)
             {
                 alias P = Unqual!parameter;
-                artumentNames.put(getOrRegisterGodotName!(parameterNames[j]));
-                auto parameterName = &(artumentNames.data[j]);
+                argumentTypeNames.put(getOrRegisterGodotName!(P.stringof));
+                auto argumentTypeName = &(argumentTypeNames[][j]);
+
+                argumentNames.put(getOrRegisterGodotName!(parameterNames[j]));
+                auto argumentName = &(argumentNames[][j]);
 
                 GDExtensionPropertyInfo argumentInfo;
                 argumentInfo.type = GetGodotVariantType!P;
-                argumentInfo.class_name = parameterName;
+                argumentInfo.class_name = argumentTypeName;
+                argumentInfo.name = argumentName;
                 argumentInfo.hint = 0;
-                argumentInfo.hint_string = parameterName;
+                argumentInfo.hint_string = argumentName;
                 argumentInfo.usage = 0b110; // PROPERTY_USAGE_DEFAULT
                 argumentInfos.put(argumentInfo);
                 argumentMetadata.put(GetGodotMethodArgumentMetadata!P);
