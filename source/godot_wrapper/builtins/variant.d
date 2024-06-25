@@ -10,12 +10,12 @@ private:
 }
 
 /**
-Godot Variant type.
+Get Godot Variant type.
 
 Params:
     T = Type of the variant contents.
 */
-template GodotVariantType(T)
+template GetGodotVariantType(T)
 {
     private
     {
@@ -30,18 +30,18 @@ template GodotVariantType(T)
     
     static if (is(T == GodotBool))
     {
-        enum GodotVariantType = GDEXTENSION_VARIANT_TYPE_BOOL;
+        enum GetGodotVariantType = GDEXTENSION_VARIANT_TYPE_BOOL;
     }
     else static if (is(T == GodotInt))
     {
-        enum GodotVariantType = GDEXTENSION_VARIANT_TYPE_INT;
+        enum GetGodotVariantType = GDEXTENSION_VARIANT_TYPE_INT;
     }
     else static if (is(T == GodotFloat))
     {
-        enum GodotVariantType = GDEXTENSION_VARIANT_TYPE_FLOAT;
+        enum GetGodotVariantType = GDEXTENSION_VARIANT_TYPE_FLOAT;
     }
     else
     {
-        enum GodotVariantType = T.variantType;
+        enum GetGodotVariantType = T.variantType;
     }
 }

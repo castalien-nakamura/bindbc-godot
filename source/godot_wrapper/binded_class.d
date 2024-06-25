@@ -69,7 +69,7 @@ Params:
 */
 template GetGDExtensionBaseClassName(T : GDExtensionBindedClass)
 {
-    private import std.traits : getUDAs, Unqual;
+    private import std.traits : getUDAs;
 
     private enum baseClasseNames = getUDAs!(T, GDExtensionBaseClassName);
 
@@ -84,5 +84,38 @@ template GetGDExtensionBaseClassName(T : GDExtensionBindedClass)
     else
     {
         static assert(false, "Only one Godot base class is allowed.");
+    }
+}
+
+/**
+Get the base class name for a GDExtension binded class.
+
+Params:
+    method = The type of the class.
+*/
+template GetGDExtensionExportMethodName(alias method)
+{
+    private
+    {
+        import std.traits : getUDAs, isCallable;
+        import godot_wrapper.binded_class : GDExtensionExportMethod;
+    }
+
+    static assert(isCallable!method, "The type must be callable.");
+    private enum exportMethods = getUDAs!(method, GDExtensionExportMethod);
+
+    static if (exportMethods.length == 0)
+    {
+        static assert(false, "No Godot export method is defined.");
+    }
+    else static if (exportMethods.length == 1)
+    {
+        enum GetGDExtensionExportMethodName = exportMethods[0].name == ""
+            ? __traits(identifier, method)
+            : exportMethods[0].name;
+    }
+    else
+    {
+        static assert(false, "Only one Godot export method is allowed.");
     }
 }
