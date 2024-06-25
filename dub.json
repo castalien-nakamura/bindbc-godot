@@ -9,6 +9,9 @@
 	"targetType": "library",
 	"configurations": [
 		{
+			"name": "library"
+		},
+		{
 			"name": "test-extension",
 			"targetType": "dynamicLibrary",
 			"targetPath": "project",
