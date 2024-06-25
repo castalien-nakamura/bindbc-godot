@@ -177,11 +177,24 @@ extern(C) void deinitialize(void* userdata, GDExtensionInitializationLevel p_lev
     print("deinitialize", "level: %s", p_level);
 }
 
-import godot_wrapper.binded_class : GDExtensionBaseClassName, GDExtensionBindedClass;
+import godot_wrapper.binded_class : GDExtensionBaseClassName,
+    GDExtensionBindedClass,
+    GDExtensionExportMethod;
 
 @GDExtensionBaseClassName("RefCounted")
 class PoetTest : GDExtensionBindedClass
 {
+    private
+    {
+        import godot_wrapper.builtins : GodotInt;
+    }
+
+    @GDExtensionExportMethod("test_method")
+    GodotInt testMethod(GodotInt x, GodotInt y) const @nogc nothrow pure @safe scope
+    {
+        return x + y;
+    }
+
     override void onDestroy() nothrow
     {
         print("PoetTest", "onDestroy");

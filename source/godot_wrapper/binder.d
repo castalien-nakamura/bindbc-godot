@@ -9,11 +9,13 @@ class GodotBindedClassDB
     {
         import std.array : appender;
         import std.meta : Filter;
+        import std.stdint : uint32_t;
         import std.traits : FunctionAttribute,
             functionAttributes,
             getSymbolsByUDA,
             getUDAs,
             isCallable,
+            hasStaticMember,
             Parameters,
             ParameterIdentifierTuple,
             ReturnType,
@@ -80,17 +82,20 @@ class GodotBindedClassDB
             // set method name
             enum methodExports = getUDAs!(method, GDExtensionExportMethod);
             static assert(methodExports.length == 1, "Only one Godot export method is allowed.");
-            enum methodName = methodExports[0].name == "" ? __traits(identifier, method) : methodExports[0].name;
-            auto godotMethodName = getOrRegisterGodotName!methodName;
+            enum methodName = __traits(identifier, method);
+            enum methodExportName = methodExports[0].name == "" ? methodName : methodExports[0].name;
+            auto godotMethodName = getOrRegisterGodotName!methodExportName;
             methodInfo.name = &godotMethodName;
 
             // set method flags
             methodInfo.method_flags = GDEXTENSION_METHOD_FLAGS_DEFAULT;
-            enum methodAttributes = functionAttributes!method;
-            static if (methodAttributes & FunctionAttribute.static_)
+
+            static if (hasStaticMember!(T, methodName))
             {
                 methodInfo.method_flags |= GDEXTENSION_METHOD_FLAG_STATIC;
             }
+
+            enum methodAttributes = functionAttributes!method;
             static if (methodAttributes & FunctionAttribute.const_
                 || methodAttributes & FunctionAttribute.immutable_)
             {
@@ -101,7 +106,7 @@ class GodotBindedClassDB
             methodInfo.ptrcall_func = &callPointerMethod;
 
             alias R = Unqual!(ReturnType!method);
-            auto returnValueName = getOrRegisterGodotName!(__traits(identifier, R));
+            auto returnValueName = getOrRegisterGodotName!(R.stringof);
             GDExtensionPropertyInfo returnValueInfo;
 
             static if (is(R == void))
@@ -143,11 +148,11 @@ class GodotBindedClassDB
                 argumentMetadata.put(GetGodotMethodArgumentMetadata!P);
             }
 
-            methodInfo.argument_count = argumentInfos.length;
-            if (argumentInfos.length > 0)
+            methodInfo.argument_count = cast(uint32_t) argumentInfos[].length;
+            if (argumentInfos[].length > 0)
             {
-                methodInfo.arguments_info = &argumentInfos[0];
-                methodInfo.arguments_metadata = &argumentMetadata[0];
+                methodInfo.arguments_info = &argumentInfos[][0];
+                methodInfo.arguments_metadata = &argumentMetadata[][0];
             }
 
             classdb_register_extension_class_method(
